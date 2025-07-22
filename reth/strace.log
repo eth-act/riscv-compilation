@@ -1,0 +1,164 @@
+execve("./exec-block", ["./exec-block"], 0x7fffd524f9a0 /* 26 vars */) = 0
+brk(NULL)                               = 0x5561e24b5000
+faccessat(AT_FDCWD, "/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=21523, ...}) = 0
+mmap(NULL, 21523, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7ffce617e000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/riscv64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0\363\0\1\0\0\0Ry\2\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=1534120, ...}) = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffce617c000
+mmap(NULL, 1572280, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffce5ffc000
+mmap(0x7ffce616b000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x16f000) = 0x7ffce616b000
+mmap(0x7ffce6170000, 48568, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7ffce6170000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/riscv64-linux-gnu/libm.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0\363\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0644, st_size=514440, ...}) = 0
+mmap(NULL, 516112, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffce5f7d000
+mmap(0x7ffce5ffa000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x7c000) = 0x7ffce5ffa000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/riscv64-linux-gnu/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0\363\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0644, st_size=117288, ...}) = 0
+mmap(NULL, 119728, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7ffce5f5f000
+mmap(0x7ffce5f7b000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b000) = 0x7ffce5f7b000
+close(3)                                = 0
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffce5f5d000
+set_tid_address(0x7ffce5f5d0f0)         = 2154
+set_robust_list(0x7ffce5f5d100, 24)     = 0
+mprotect(0x7ffce616b000, 12288, PROT_READ) = 0
+mprotect(0x7ffce5f7b000, 4096, PROT_READ) = 0
+mprotect(0x7ffce5ffa000, 4096, PROT_READ) = 0
+mprotect(0x5561d27bc000, 73728, PROT_READ) = 0
+mprotect(0x7ffce61aa000, 8192, PROT_READ) = 0
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+munmap(0x7ffce617e000, 21523)           = 0
+ppoll([{fd=0, events=0}, {fd=1, events=0}, {fd=2, events=0}], 3, {tv_sec=0, tv_nsec=0}, NULL, 0) = 0 (Timeout)
+rt_sigaction(SIGPIPE, {sa_handler=SIG_IGN, sa_mask=[PIPE], sa_flags=SA_RESTART}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+getrandom("\x45\x43\xed\x24\xc1\x27\xf2\xa0", 8, GRND_NONBLOCK) = 8
+brk(NULL)                               = 0x5561e24b5000
+brk(0x5561e24d6000)                     = 0x5561e24d6000
+openat(AT_FDCWD, "/proc/self/maps", O_RDONLY|O_CLOEXEC) = 3
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+fstat(3, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+read(3, "5561d23f0000-5561d27bc000 r-xp 0"..., 1024) = 1024
+read(3, ":01 4667                       /"..., 1024) = 1024
+read(3, "000000 00:00 0                  "..., 1024) = 48
+close(3)                                = 0
+sched_getaffinity(2154, 32, [0 1 2 3])  = 8
+rt_sigaction(SIGSEGV, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+sigaltstack(NULL, {ss_sp=NULL, ss_flags=SS_DISABLE, ss_size=0}) = 0
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0x7ffce6181000
+mprotect(0x7ffce6181000, 4096, PROT_NONE) = 0
+sigaltstack({ss_sp=0x7ffce6182000, ss_flags=0, ss_size=8192}, NULL) = 0
+rt_sigaction(SIGSEGV, {sa_handler=0x5561d25e9eee, sa_mask=[], sa_flags=SA_ONSTACK|SA_SIGINFO}, NULL, 8) = 0
+rt_sigaction(SIGBUS, NULL, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGBUS, {sa_handler=0x5561d25e9eee, sa_mask=[], sa_flags=SA_ONSTACK|SA_SIGINFO}, NULL, 8) = 0
+write(1, "Starting stateless block validat"..., 36) = 36
+openat(AT_FDCWD, "block_and_witness.json", O_RDONLY|O_CLOEXEC) = 3
+statx(3, "", AT_STATX_SYNC_AS_STAT|AT_EMPTY_PATH, STATX_ALL, {stx_mask=STATX_ALL|STATX_MNT_ID, stx_attributes=0, stx_mode=S_IFREG|0664, stx_size=9528654, ...}) = 0
+lseek(3, 0, SEEK_CUR)                   = 0
+mmap(NULL, 9531392, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffce5600000
+read(3, "{\n  \"block\": {\n    \"header\": {\n "..., 9528654) = 9528654
+read(3, "", 32)                         = 0
+close(3)                                = 0
+brk(0x5561e24f7000)                     = 0x5561e24f7000
+brk(0x5561e2518000)                     = 0x5561e2518000
+brk(0x5561e2539000)                     = 0x5561e2539000
+brk(0x5561e2569000)                     = 0x5561e2569000
+brk(0x5561e258a000)                     = 0x5561e258a000
+brk(0x5561e25ab000)                     = 0x5561e25ab000
+mmap(NULL, 135168, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7ffce5f3c000
+brk(0x5561e25cc000)                     = 0x5561e25cc000
+brk(0x5561e25ed000)                     = 0x5561e25ed000
+brk(0x5561e260e000)                     = 0x5561e260e000
+brk(0x5561e262f000)                     = 0x5561e262f000
+brk(0x5561e2650000)                     = 0x5561e2650000
+mremap(0x7ffce5f3c000, 135168, 266240, MREMAP_MAYMOVE) = 0x7ffce55bf000
+brk(0x5561e2671000)                     = 0x5561e2671000
+brk(0x5561e2692000)                     = 0x5561e2692000
+brk(0x5561e26b3000)                     = 0x5561e26b3000
+brk(0x5561e26d4000)                     = 0x5561e26d4000
+brk(0x5561e26f5000)                     = 0x5561e26f5000
+brk(0x5561e2716000)                     = 0x5561e2716000
+brk(0x5561e2737000)                     = 0x5561e2737000
+brk(0x5561e2758000)                     = 0x5561e2758000
+brk(0x5561e277a000)                     = 0x5561e277a000
+brk(0x5561e279b000)                     = 0x5561e279b000
+brk(0x5561e27bc000)                     = 0x5561e27bc000
+brk(0x5561e27df000)                     = 0x5561e27df000
+brk(0x5561e2800000)                     = 0x5561e2800000
+brk(0x5561e2821000)                     = 0x5561e2821000
+brk(0x5561e2843000)                     = 0x5561e2843000
+brk(0x5561e2866000)                     = 0x5561e2866000
+brk(0x5561e2887000)                     = 0x5561e2887000
+brk(0x5561e28aa000)                     = 0x5561e28aa000
+brk(0x5561e28cb000)                     = 0x5561e28cb000
+brk(0x5561e28ec000)                     = 0x5561e28ec000
+brk(0x5561e290f000)                     = 0x5561e290f000
+brk(0x5561e2930000)                     = 0x5561e2930000
+brk(0x5561e2951000)                     = 0x5561e2951000
+brk(0x5561e2973000)                     = 0x5561e2973000
+munmap(0x7ffce5600000, 9531392)         = 0
+brk(0x5561e2994000)                     = 0x5561e2994000
+brk(0x5561e29b5000)                     = 0x5561e29b5000
+brk(0x5561e29d6000)                     = 0x5561e29d6000
+brk(0x5561e29f7000)                     = 0x5561e29f7000
+brk(0x5561e2a18000)                     = 0x5561e2a18000
+brk(0x5561e2a39000)                     = 0x5561e2a39000
+brk(0x5561e2a5a000)                     = 0x5561e2a5a000
+brk(0x5561e2a7b000)                     = 0x5561e2a7b000
+brk(0x5561e2a9c000)                     = 0x5561e2a9c000
+brk(0x5561e2abd000)                     = 0x5561e2abd000
+brk(0x5561e2ade000)                     = 0x5561e2ade000
+brk(0x5561e2aff000)                     = 0x5561e2aff000
+brk(0x5561e2b20000)                     = 0x5561e2b20000
+brk(0x5561e2b41000)                     = 0x5561e2b41000
+brk(0x5561e2b62000)                     = 0x5561e2b62000
+brk(0x5561e2b83000)                     = 0x5561e2b83000
+brk(0x5561e2ba4000)                     = 0x5561e2ba4000
+brk(0x5561e2bc5000)                     = 0x5561e2bc5000
+brk(0x5561e2be6000)                     = 0x5561e2be6000
+brk(0x5561e2c07000)                     = 0x5561e2c07000
+brk(0x5561e2c28000)                     = 0x5561e2c28000
+brk(0x5561e2dd0000)                     = 0x5561e2dd0000
+brk(0x5561e2df1000)                     = 0x5561e2df1000
+brk(0x5561e2e12000)                     = 0x5561e2e12000
+brk(0x5561e2e33000)                     = 0x5561e2e33000
+brk(0x5561e2e54000)                     = 0x5561e2e54000
+brk(0x5561e2e75000)                     = 0x5561e2e75000
+brk(0x5561e2e96000)                     = 0x5561e2e96000
+brk(0x5561e2eb7000)                     = 0x5561e2eb7000
+brk(0x5561e2ed8000)                     = 0x5561e2ed8000
+brk(0x5561e2ef9000)                     = 0x5561e2ef9000
+brk(0x5561e308e000)                     = 0x5561e308e000
+brk(0x5561e30b1000)                     = 0x5561e30b1000
+brk(0x5561e30d4000)                     = 0x5561e30d4000
+brk(0x5561e30f9000)                     = 0x5561e30f9000
+brk(0x5561e311a000)                     = 0x5561e311a000
+brk(0x5561e313b000)                     = 0x5561e313b000
+brk(0x5561e3160000)                     = 0x5561e3160000
+brk(0x5561e3186000)                     = 0x5561e3186000
+brk(0x5561e31ac000)                     = 0x5561e31ac000
+brk(0x5561e31cf000)                     = 0x5561e31cf000
+brk(0x5561e31f5000)                     = 0x5561e31f5000
+brk(0x5561e3223000)                     = 0x5561e3223000
+brk(0x5561e324f000)                     = 0x5561e324f000
+brk(0x5561e328c000)                     = 0x5561e328c000
+brk(0x5561e32c4000)                     = 0x5561e32c4000
+brk(0x5561e333d000)                     = 0x5561e333d000
+brk(0x5561e342f000)                     = 0x5561e342f000
+brk(0x5561e350f000)                     = 0x5561e350f000
+brk(0x5561e36f3000)                     = 0x5561e36f3000
+brk(0x5561e3abb000)                     = 0x5561e3abb000
+brk(0x5561e424b000)                     = 0x5561e424b000
+brk(0x5561e433d000)                     = 0x5561e433d000
+brk(0x5561e43b6000)                     = 0x5561e43b6000
+munmap(0x7ffce55bf000, 266240)          = 0
+write(1, "Block validation completed succe"..., 108) = 108
+sigaltstack({ss_sp=NULL, ss_flags=SS_DISABLE, ss_size=8192}, NULL) = 0
+munmap(0x7ffce6181000, 12288)           = 0
+exit_group(0)                           = ?
++++ exited with 0 +++

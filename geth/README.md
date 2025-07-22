@@ -69,7 +69,7 @@ However, if you prefer to use your own compiled binary, update the script to poi
 ### **If You Compiled the Binary Yourself**
 
 ```bash
-GODEBUG=asyncpreemptoff=1 GOGC=off GOMAXPROCS=1 ./geth_evm_riscv64_linux t8n   --input.alloc=./assets/alloc.json   --input.txs=./assets/tx.json   --input.env=./assets/env.json   --state.fork=Prague
+GODEBUG=asyncpreemptoff=1 GOGC=off GOMAXPROCS=1 ./evm t8n   --input.alloc=./assets/alloc.json   --input.txs=./assets/tx.json   --input.env=./assets/env.json   --state.fork=Prague
 ```
 
 ### **If You're Using the Precompiled Binary**
