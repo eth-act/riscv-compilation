@@ -58,3 +58,26 @@ type input struct {
 	Env   *stEnv             `json:"env,omitempty"`
 	Txs   []*txWithKey       `json:"txs,omitempty"`
 }
+
+type Prestate struct {
+	Env stEnv              `json:"env"`
+	Pre types.GenesisAlloc `json:"pre"`
+}
+
+type txIterator interface {
+	// Next returns true until EOF
+	Next() bool
+	// Tx returns the next transaction, OR an error.
+	Tx() (*types.Transaction, error)
+}
+
+type NumberedError struct {
+	errorCode int
+	err       error
+}
+
+
+type sliceTxIterator struct {
+	idx int
+	txs []*types.Transaction
+}
