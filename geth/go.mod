@@ -2,7 +2,11 @@ module github.com/eth-act/riscv-compilation
 
 go 1.23.0
 
-require github.com/ethereum/go-ethereum v1.16.1
+require (
+	github.com/ethereum/go-ethereum v1.16.1
+	github.com/holiman/uint256 v1.3.2
+	golang.org/x/crypto v0.36.0
+)
 
 require (
 	github.com/StackExchange/wmi v1.2.1 // indirect
@@ -21,7 +25,6 @@ require (
 	github.com/gofrs/flock v0.12.1 // indirect
 	github.com/golang/snappy v0.0.5-0.20220116011046-fa5810519dcb // indirect
 	github.com/holiman/bloomfilter/v2 v2.0.3 // indirect
-	github.com/holiman/uint256 v1.3.2 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
 	github.com/minio/sha256-simd v1.0.0 // indirect
@@ -32,7 +35,6 @@ require (
 	github.com/supranational/blst v0.3.14 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
-	golang.org/x/crypto v0.36.0 // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

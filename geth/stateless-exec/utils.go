@@ -11,10 +11,12 @@ import (
 )
 
 const (
-	ErrorJson = 10
-	stdinSelector = "stdin"
-	ErrorIO   = 11
+	ErrorEVM = 2
 	ErrorConfig = 3
+	ErrorMissingBlockhash = 4
+	ErrorJson = 10
+	ErrorIO   = 11
+	stdinSelector = "stdin"
 )
 
 // obtainChainConfig returns the fork configuration for block execution

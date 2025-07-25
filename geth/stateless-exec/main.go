@@ -23,6 +23,7 @@ func main() {
 		txIt     txIterator
 		inputData = obtainAssets(alloc_path, evn_path, tx_path)
 		chainConfig = obtainChainConfig()
+		vmConfig = obtainVmConfig()
 	)
 	
 	
@@ -52,7 +53,12 @@ func main() {
 		panic("An error occurred while applying cancun checks")
 	}
 	
+	_, result, _, err := prestate.Apply(*vmConfig, chainConfig, txIt, 0)
+	if err != nil {
+		panic("An error occured when appying the state transition function")
+	}
 	
+	fmt.Printf("Execution result: %+v\n", result)
 }
 
 

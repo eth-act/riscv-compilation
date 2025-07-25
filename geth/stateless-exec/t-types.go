@@ -115,3 +115,26 @@ type sliceTxIterator struct {
 	idx int
 	txs []*types.Transaction
 }
+
+type ExecutionResult struct {
+	StateRoot            common.Hash           `json:"stateRoot"`
+	TxRoot               common.Hash           `json:"txRoot"`
+	ReceiptRoot          common.Hash           `json:"receiptsRoot"`
+	LogsHash             common.Hash           `json:"logsHash"`
+	Bloom                types.Bloom           `json:"logsBloom"        gencodec:"required"`
+	Receipts             types.Receipts        `json:"receipts"`
+	Rejected             []*rejectedTx         `json:"rejected,omitempty"`
+	Difficulty           *math.HexOrDecimal256 `json:"currentDifficulty" gencodec:"required"`
+	GasUsed              math.HexOrDecimal64   `json:"gasUsed"`
+	BaseFee              *math.HexOrDecimal256 `json:"currentBaseFee,omitempty"`
+	WithdrawalsRoot      *common.Hash          `json:"withdrawalsRoot,omitempty"`
+	CurrentExcessBlobGas *math.HexOrDecimal64  `json:"currentExcessBlobGas,omitempty"`
+	CurrentBlobGasUsed   *math.HexOrDecimal64  `json:"blobGasUsed,omitempty"`
+	RequestsHash         *common.Hash          `json:"requestsHash,omitempty"`
+	Requests             [][]byte              `json:"requests"`
+}
+
+type rejectedTx struct {
+	Index int    `json:"index"`
+	Err   string `json:"error"`
+}
