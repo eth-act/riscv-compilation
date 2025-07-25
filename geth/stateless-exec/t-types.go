@@ -2,12 +2,14 @@ package main
 
 import (
 	"crypto/ecdsa"
+	"encoding/json"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/core/stateless"
 	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/crypto"
 )
 
 // StatelessInput represents the input data for stateless block execution
@@ -52,11 +54,43 @@ type txWithKey struct {
 	protected bool
 }
 
+func (t *txWithKey) UnmarshalJSON(input []byte) error {
+	// Read the metadata, if present
+	type txMetadata struct {
+		Key       *common.Hash `json:"secretKey"`
+		Protected *bool        `json:"protected"`
+	}
+	var data txMetadata
+	if err := json.Unmarshal(input, &data); err != nil {
+		return err
+	}
+	if data.Key != nil {
+		k := data.Key.Hex()[2:]
+		if ecdsaKey, err := crypto.HexToECDSA(k); err != nil {
+			return err
+		} else {
+			t.key = ecdsaKey
+		}
+	}
+	if data.Protected != nil {
+		t.protected = *data.Protected
+	} else {
+		t.protected = true
+	}
+	// Now, read the transaction itself
+	var tx types.Transaction
+	if err := json.Unmarshal(input, &tx); err != nil {
+		return err
+	}
+	t.tx = &tx
+	return nil
+}
 
 type input struct {
 	Alloc types.GenesisAlloc `json:"alloc,omitempty"`
 	Env   *stEnv             `json:"env,omitempty"`
 	Txs   []*txWithKey       `json:"txs,omitempty"`
+	TxRlp string             `json:"txsRlp,omitempty"`
 }
 
 type Prestate struct {

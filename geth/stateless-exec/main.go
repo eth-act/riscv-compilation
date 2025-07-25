@@ -13,15 +13,21 @@ import (
 func main() {
 	fmt.Println("Starting stateless block execution")
 	
+	
+	alloc_path := "/Users/gregg/Documents/work/ethereum/riscv-compilation/geth/assets/alloc.json"
+	evn_path := "/Users/gregg/Documents/work/ethereum/riscv-compilation/geth/assets/env.json"
+	tx_path := "/Users/gregg/Documents/work/ethereum/riscv-compilation/geth/assets/tx.json"
+	
 	var (
 		// prestate Prestate
 		txIt     txIterator
-		inputData = obtainAssets()
+		inputData = obtainAssets(alloc_path, evn_path, tx_path)
 		chainConfig = obtainChainConfig()
 	)
 	
 	
-	txIt, err := loadTransactions(inputData, chainConfig)
+	fmt.Println("Loading transactions")
+	txIt, err := loadTransactions(tx_path, inputData, chainConfig)
 	if err != nil {
 		panic("Transactions failed to load")
 	}

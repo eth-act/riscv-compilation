@@ -1,9 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
+	"os"
+	"strings"
 
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/params"
 )
@@ -52,9 +57,41 @@ func (ait *sliceTxIterator) Tx() (*types.Transaction, error) {
 	return nil, io.EOF
 }
 
-func loadTransactions(inputData *input, chainConfig *params.ChainConfig) (txIterator, error) {
+func loadTransactions(txStr string, inputData *input, chainConfig *params.ChainConfig) (txIterator, error) {
+	var txsWithKeys []*txWithKey
+	if txStr != stdinSelector {
+		println(txStr)
+		data, err := os.ReadFile(txStr)
+		if err != nil {
+			return nil, NewError(ErrorIO, fmt.Errorf("failed reading txs file: %v", err))
+		}
+		if strings.HasSuffix(txStr, ".rlp") { // A file containing an rlp list
+			var body hexutil.Bytes
+			if err := json.Unmarshal(data, &body); err != nil {
+				return nil, err
+			}
+			return newRlpTxIterator(body), nil
+		}
+		if err := json.Unmarshal(data, &txsWithKeys); err != nil {
+			return nil, NewError(ErrorJson, fmt.Errorf("failed unmarshalling txs-file: %v", err))
+		}
+		for i, tx := range txsWithKeys {
+        	fmt.Printf("1txsWithKeys[%d]: %+v\n", i, *tx)
+    	}
+	} else {
+		if len(inputData.TxRlp) > 0 {
+			// Decode the body of already signed transactions
+			return newRlpTxIterator(common.FromHex(inputData.TxRlp)), nil
+		}
+		// JSON encoded transactions
+		txsWithKeys = inputData.Txs
+	}
+	
+	for i, tx := range txsWithKeys {
+        fmt.Printf("txsWithKeys[%d]: %+v\n", i, *tx)
+    }
 	// We may have to sign the transactions.
 	signer := types.LatestSignerForChainID(chainConfig.ChainID)
-	txs, err := signUnsignedTransactions(inputData.Txs, signer)
+	txs, err := signUnsignedTransactions(txsWithKeys, signer)
 	return newSliceTxIterator(txs), err
 }

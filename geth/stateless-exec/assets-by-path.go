@@ -8,10 +8,8 @@ import (
 )
 
 
-func obtainAssets() *input {
-	alloc_path := ""
-	evn_path := ""
-	tx_path := ""
+func obtainAssets(alloc_path, evn_path, tx_path string) *input {
+	
 	
 	// opening files
 	alloc_file, err := os.Open(alloc_path)
