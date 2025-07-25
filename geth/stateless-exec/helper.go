@@ -96,3 +96,16 @@ func applyMergeChecks(env *stEnv, chainConfig *params.ChainConfig) error {
 	env.Difficulty = nil
 	return nil
 }
+
+func applyCancunChecks(env *stEnv, chainConfig *params.ChainConfig) error {
+	if !chainConfig.IsCancun(big.NewInt(int64(env.Number)), env.Timestamp) {
+		env.ParentBeaconBlockRoot = nil // un-set it if it has been set too early
+		return nil
+	}
+	// Post-cancun
+	// We require EIP-4788 beacon root to be set in the env
+	if env.ParentBeaconBlockRoot == nil {
+		return NewError(ErrorConfig, fmt.Errorf("post-cancun env requires parentBeaconBlockRoot to be set"))
+	}
+	return nil
+}

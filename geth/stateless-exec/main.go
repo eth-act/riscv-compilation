@@ -48,9 +48,9 @@ func main() {
 	if err := applyMergeChecks(&prestate.Env, chainConfig); err != nil {
 		panic("An error occurred while applying merge checks")
 	}
-	// if err := applyCancunChecks(&prestate.Env, chainConfig); err != nil {
-	// 	return err
-	// }
+	if err := applyCancunChecks(&prestate.Env, chainConfig); err != nil {
+		panic("An error occurred while applying cancun checks")
+	}
 	
 	
 }
