@@ -95,3 +95,9 @@ GODEBUG=asyncpreemptoff=1 GOGC=off GOMAXPROCS=1 strace -o geth_strace.log ./evm 
 ```bash
 GODEBUG=asyncpreemptoff=1 GOGC=off GOMAXPROCS=1 strace -o geth_strace.log ./geth_evm_riscv64_linux t8n   --input.alloc=./assets/alloc.json   --input.txs=./assets/tx.json   --input.env=./assets/env.json   --state.fork=Prague
 ```
+
+
+HOLD:
+```bash 
+GOOS=tamago GOARCH=riscv64 /home/guest/Documents/duc-works/tamago-go-latest/bin/go build -tags sifive_u,semihosting,tinygo.wasm -trimpath -ldflags "-T 0x80010000 -R 0x1000" -o evm
+```
