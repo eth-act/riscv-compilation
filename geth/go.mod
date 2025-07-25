@@ -1,11 +1,8 @@
 module github.com/eth-act/riscv-compilation
 
-go 1.24.5
+go 1.23.0
 
-require (
-	github.com/ethereum/go-ethereum v1.16.1
-	github.com/usbarmory/tamago v0.0.0-20250710154000-3dd21eabac74
-)
+require github.com/ethereum/go-ethereum v1.16.1
 
 require (
 	github.com/StackExchange/wmi v1.2.1 // indirect

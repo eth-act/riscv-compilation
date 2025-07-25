@@ -75,9 +75,6 @@ func loadTransactions(txStr string, inputData *input, chainConfig *params.ChainC
 		if err := json.Unmarshal(data, &txsWithKeys); err != nil {
 			return nil, NewError(ErrorJson, fmt.Errorf("failed unmarshalling txs-file: %v", err))
 		}
-		for i, tx := range txsWithKeys {
-        	fmt.Printf("1txsWithKeys[%d]: %+v\n", i, *tx)
-    	}
 	} else {
 		if len(inputData.TxRlp) > 0 {
 			// Decode the body of already signed transactions
@@ -86,10 +83,6 @@ func loadTransactions(txStr string, inputData *input, chainConfig *params.ChainC
 		// JSON encoded transactions
 		txsWithKeys = inputData.Txs
 	}
-	
-	for i, tx := range txsWithKeys {
-        fmt.Printf("txsWithKeys[%d]: %+v\n", i, *tx)
-    }
 	// We may have to sign the transactions.
 	signer := types.LatestSignerForChainID(chainConfig.ChainID)
 	txs, err := signUnsignedTransactions(txsWithKeys, signer)

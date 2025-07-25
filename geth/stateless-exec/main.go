@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		panic("Transactions failed to load")
 	}
-	fmt.Println(txIt)
+
 	
 	// if txIt, err = loadTransactions(inputData, chainConfig); err != nil {
 	// 	return err
