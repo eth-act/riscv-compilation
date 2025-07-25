@@ -19,26 +19,29 @@ func main() {
 	tx_path := "/Users/gregg/Documents/work/ethereum/riscv-compilation/geth/assets/tx.json"
 	
 	var (
-		// prestate Prestate
+		prestate Prestate
 		txIt     txIterator
 		inputData = obtainAssets(alloc_path, evn_path, tx_path)
 		chainConfig = obtainChainConfig()
 	)
 	
 	
+	prestate.Pre = inputData.Alloc
+	prestate.Env = *inputData.Env
+	
+	
 	fmt.Println("Loading transactions")
-	txIt, err := loadTransactions(tx_path, inputData, chainConfig)
-	if err != nil {
+	txIt, txit_err := loadTransactions(tx_path, inputData, chainConfig)
+	if txit_err != nil {
 		panic("Transactions failed to load")
 	}
+	
+	fmt.Println("Applying london checks")
 
 	
-	// if txIt, err = loadTransactions(inputData, chainConfig); err != nil {
-	// 	return err
-	// }
-	// if err := applyLondonChecks(&prestate.Env, chainConfig); err != nil {
-	// 	return err
-	// }
+	if err := applyLondonChecks(&prestate.Env, chainConfig); err != nil {
+		panic("An error occurred while applying London checks")
+	}
 	// if err := applyShanghaiChecks(&prestate.Env, chainConfig); err != nil {
 	// 	return err
 	// }

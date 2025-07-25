@@ -14,7 +14,7 @@ const (
 	ErrorJson = 10
 	stdinSelector = "stdin"
 	ErrorIO   = 11
-	
+	ErrorConfig = 3
 )
 
 // obtainChainConfig returns the fork configuration for block execution
@@ -58,3 +58,5 @@ func (it *rlpTxIterator) Tx() (*types.Transaction, error) {
 	}
 	return &a, nil
 }
+
+
