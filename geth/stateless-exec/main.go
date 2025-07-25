@@ -42,12 +42,12 @@ func main() {
 	if err := applyLondonChecks(&prestate.Env, chainConfig); err != nil {
 		panic("An error occurred while applying London checks")
 	}
-	// if err := applyShanghaiChecks(&prestate.Env, chainConfig); err != nil {
-	// 	return err
-	// }
-	// if err := applyMergeChecks(&prestate.Env, chainConfig); err != nil {
-	// 	return err
-	// }
+	if err := applyShanghaiChecks(&prestate.Env, chainConfig); err != nil {
+		panic("An error occurred while applying shanghai checks")
+	}
+	if err := applyMergeChecks(&prestate.Env, chainConfig); err != nil {
+		panic("An error occurred while applying merge checks")
+	}
 	// if err := applyCancunChecks(&prestate.Env, chainConfig); err != nil {
 	// 	return err
 	// }
