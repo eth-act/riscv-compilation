@@ -2,10 +2,13 @@ package main
 
 import (
 	"bytes"
+	"crypto/ecdsa"
 	"fmt"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
+	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rlp"
 )
@@ -62,3 +65,8 @@ func (it *rlpTxIterator) Tx() (*types.Transaction, error) {
 }
 
 
+func stringToKey(s string) (*ecdsa.PrivateKey, error) {
+	key := common.HexToHash(s)
+	k := key.Hex()[2:]
+	return crypto.HexToECDSA(k)
+}
