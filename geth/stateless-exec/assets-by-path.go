@@ -57,5 +57,7 @@ func obtainAssets(alloc_path, evn_path, tx_path string) *input {
 		panic(fmt.Sprintf("Could not parse %s: %v", tx_path, err))
 	}
 	
+	
+	
 	return &inputOut
 }

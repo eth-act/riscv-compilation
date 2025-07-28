@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	_ "github.com/usbarmory/tamago/board/qemu/sifive_u"
+	// _ "github.com/usbarmory/tamago/board/qemu/sifive_u"
 )
 
 
@@ -14,9 +14,9 @@ func main() {
 	fmt.Println("Starting stateless block execution")
 	
 	
-	alloc_path := "/Users/gregg/Documents/work/ethereum/riscv-compilation/geth/assets/alloc.json"
-	evn_path := "/Users/gregg/Documents/work/ethereum/riscv-compilation/geth/assets/env.json"
-	tx_path := "/Users/gregg/Documents/work/ethereum/riscv-compilation/geth/assets/tx.json"
+	alloc_path := "/home/guest/Documents/duc-works/riscv-compilation/geth/assets/alloc.json"
+	evn_path := "/home/guest/Documents/duc-works/riscv-compilation/geth/assets/env.json"
+	tx_path := "/home/guest/Documents/duc-works/riscv-compilation/geth/assets/tx.json"
 	
 	var (
 		prestate Prestate
@@ -26,6 +26,7 @@ func main() {
 		vmConfig = obtainVmConfig()
 	)
 	
+
 	
 	prestate.Pre = inputData.Alloc
 	prestate.Env = *inputData.Env
