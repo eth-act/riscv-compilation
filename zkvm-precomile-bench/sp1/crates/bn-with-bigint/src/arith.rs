@@ -24,14 +24,13 @@ impl<'a> Iterator for BitIterator<'a> {
     type Item = bool;
 
     fn next(&mut self) -> Option<bool> {
-        let bytes = self.int.to_le_bytes();
-        let bits = bytes_to_bits_le(&bytes);
         if self.n == 0 {
-            None
-        } else {
-            self.n -= 1;
-            Some(bits[self.n])
-        }
+                    None
+                } else {
+                    self.n -= 1;
+        
+                    u256_get_bit(self.int, self.n)
+                }
     }
 }
 
@@ -46,25 +45,29 @@ fn div2(a: &mut [u128; 2]) {
 
 /// Multiply by two
 #[inline]
-fn mul2(a: &mut [u128; 2]) {
+pub(crate) fn mul2(inp: &mut U256) {
+    let mut a = from_word_vec(&inp.to_words());
     let tmp = a[0] >> 127;
     a[0] <<= 1;
     a[1] <<= 1;
     a[1] |= tmp;
+    
+    let res = to_word_vec(&a);
+    *inp = U256::from_words(res);
 }
 
 #[inline(always)]
-fn split_u128(i: u128) -> (u128, u128) {
+pub(crate) fn split_u128(i: u128) -> (u128, u128) {
     (i >> 64, i & 0xFFFFFFFFFFFFFFFF)
 }
 
 #[inline(always)]
-fn combine_u128(hi: u128, lo: u128) -> u128 {
+pub(crate) fn combine_u128(hi: u128, lo: u128) -> u128 {
     (hi << 64) | lo
 }
 
 #[inline]
-fn adc(a: u128, b: u128, carry: &mut u128) -> u128 {
+pub(crate) fn adc(a: u128, b: u128, carry: &mut u128) -> u128 {
     let (a1, a0) = split_u128(a);
     let (b1, b0) = split_u128(b);
     let (c, r0) = split_u128(a0 + b0 + *carry);
@@ -86,7 +89,7 @@ fn add_nocarry(a: &mut [u128; 2], b: &[u128; 2]) {
 }
 
 #[inline]
-fn sub_noborrow(a: &mut [u128; 2], b: &[u128; 2]) {
+pub(crate) fn sub_noborrow(a: &mut [u128; 2], b: &[u128; 2]) {
     #[inline]
     fn sbb(a: u128, b: u128, borrow: &mut u128) -> u128 {
         let (a1, a0) = split_u128(a);
@@ -110,7 +113,7 @@ fn sub_noborrow(a: &mut [u128; 2], b: &[u128; 2]) {
 
 // TODO: Make `from_index` a const param
 #[inline(always)]
-fn mac_digit(from_index: usize, acc: &mut [u128; 4], b: &[u128; 2], c: u128) {
+pub(crate) fn mac_digit(from_index: usize, acc: &mut [u128; 4], b: &[u128; 2], c: u128) {
     #[inline]
     fn mac_with_carry(a: u128, b: u128, c: u128, carry: &mut u128) -> u128 {
         let (b_hi, b_lo) = split_u128(b);
@@ -195,4 +198,56 @@ pub fn bytes_to_bits_le(bytes: &[u8]) -> Vec<bool> {
         }
     }
     bits
+}
+
+#[inline]
+pub(crate) fn to_word_vec(a: &[u128; 2]) -> [u64; 4] {
+    [
+        a[0] as u64,         // lower 64 bits of a[0]
+        (a[0] >> 64) as u64, // upper 64 bits of a[0]
+        a[1] as u64,         // lower 64 bits of a[1]
+        (a[1] >> 64) as u64, // upper 64 bits of a[1]
+    ]
+}
+
+#[inline]
+pub(crate) fn from_word_vec(d: &[u64; 4]) -> [u128; 2] {
+    let mut a = [0u128; 2];
+    a[0] = (d[1] as u128) << 64 | d[0] as u128;
+    a[1] = (d[3] as u128) << 64 | d[2] as u128;
+    a
+}
+
+#[inline]
+pub(crate) fn u256_get_bit(data: &U256, index: usize) -> Option<bool> {
+    let p_data = from_word_vec(&data.to_words());
+    
+    if index >= 256 {
+                None
+            } else {
+                let part = index / 128;
+                let bit = index - (128 * part);
+    
+                Some(p_data[part] & (1 << bit) > 0)
+            }
+}
+
+#[inline]
+pub(crate) fn u256_set_bit(data: &mut U256, n: usize, to: bool) -> bool {
+    let mut p_data = from_word_vec(&data.to_words());
+    
+    if n >= 256 {
+        false
+    } else {
+        let part = n / 128;
+        let bit = n - (128 * part);
+        if to {
+            p_data[part] |= 1 << bit;
+        } else {
+            p_data[part] &= !(1 << bit);
+        }
+        *data = U256::from_words(to_word_vec(&p_data));
+        
+        true
+    }
 }

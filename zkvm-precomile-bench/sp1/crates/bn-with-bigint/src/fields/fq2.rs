@@ -1,7 +1,8 @@
 use core::ops::{Add, Mul, Neg, Sub};
+use crypto_bigint::{U256, U512};
 use rand::Rng;
 use crate::fields::{const_fq, FieldElement, Fq};
-use crate::arith::{U256, U512};
+
 
 #[inline]
 fn fq_non_residue() -> Fq {
@@ -174,6 +175,7 @@ impl Neg for Fq2 {
     type Output = Fq2;
 
     fn neg(self) -> Fq2 {
+        let er = U256::from_u32(3)
         Fq2 {
             c0: -self.c0,
             c1: -self.c1,
@@ -190,13 +192,13 @@ lazy_static::lazy_static! {
     ]);
 
     static ref FQ_MINUS3_DIV4: Fq =
-        Fq::new(3.into()).expect("3 is a valid field element and static; qed").neg() *
-        Fq::new(4.into()).expect("4 is a valid field element and static; qed").inverse()
+        Fq::new(U256::from_u32(3)).expect("3 is a valid field element and static; qed").neg() *
+        Fq::new(U256::from_u32(4)).expect("4 is a valid field element and static; qed").inverse()
         .expect("4 has inverse in Fq and is static; qed");
 
     static ref FQ_MINUS1_DIV2: Fq =
-        Fq::new(1.into()).expect("1 is a valid field element and static; qed").neg() *
-        Fq::new(2.into()).expect("2 is a valid field element and static; qed").inverse()
+        Fq::new(U256::from_u32(1)).expect("1 is a valid field element and static; qed").neg() *
+        Fq::new(U256::from_u32(2)).expect("2 is a valid field element and static; qed").inverse()
             .expect("2 has inverse in Fq and is static; qed");
 }
 

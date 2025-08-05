@@ -2,11 +2,15 @@ mod fp;
 mod fq2;
 mod fq6;
 mod fq12;
+mod u512;
 
-use crate::arith::U256;
+
+use crypto_bigint::U256;
 use rand::Rng;
 use core::ops::{Add, Mul, Neg, Sub};
 use alloc::fmt::Debug;
+
+use crate::arith::u256_bits;
 
 pub use self::fp::{const_fq, Fq, Fr};
 pub use self::fq2::{Fq2, fq2_nonresidue};
@@ -35,7 +39,7 @@ pub trait FieldElement
     fn pow<I: Into<U256>>(&self, by: I) -> Self {
         let mut res = Self::one();
 
-        for i in by.into().bits() {
+        for i in u256_bits(&by.into()) {
             res = res.squared();
             if i {
                 res = *self * res;
