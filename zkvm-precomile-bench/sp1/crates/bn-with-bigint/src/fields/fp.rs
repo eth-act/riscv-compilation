@@ -2,8 +2,9 @@ use alloc::vec::Vec;
 use core::ops::{Add, Mul, Neg, Sub};
 use rand::Rng;
 use crate::fields::FieldElement;
-use crypto_bigint::U256;
-
+use crypto_bigint::{U256, Zero};
+use crate::arith::{mono_mul, u256_set_bit, mono_invert};
+use crate::fields::u512::U512;
 
 macro_rules! field_impl {
     ($name:ident, $modulus:expr, $rsquared:expr, $rcubed:expr, $one:expr, $inv:expr) => {
@@ -14,7 +15,7 @@ macro_rules! field_impl {
         impl From<$name> for U256 {
             #[inline]
             fn from(mut a: $name) -> Self {
-                a.0.mul(&U256::one(), &U256::from($modulus), $inv);
+                mono_mul(&mut a.0, &U256::ONE, &U256::from($modulus), $inv);
 
                 a.0
             }
@@ -45,9 +46,9 @@ macro_rules! field_impl {
 
             /// Converts a U256 to an Fp so long as it's below the modulus.
             pub fn new(mut a: U256) -> Option<Self> {
-                if a < U256::from($modulus) {
-                    a.mul(&U256::from($rsquared), &U256::from($modulus), $inv);
-
+                if a < U256::from($modulus) {                    
+                    mono_mul(&mut a, &U256::from($rsquared), &U256::from($modulus), $inv);
+                    
                     Some($name(a))
                 } else {
                     None
@@ -56,7 +57,7 @@ macro_rules! field_impl {
 
             /// Converts a U256 to an Fr regardless of modulus.
             pub fn new_mul_factor(mut a: U256) -> Self {
-                a.mul(&U256::from($rsquared), &U256::from($modulus), $inv);
+                mono_mul(&mut a, &U256::from($rsquared), &U256::from($modulus), $inv);
                 $name(a)
             }
 
@@ -82,7 +83,7 @@ macro_rules! field_impl {
             }
 
             pub fn set_bit(&mut self, bit: usize, to: bool) {
-                self.0.set_bit(bit, to);
+                u256_set_bit(&mut self.0, bit, to);
             }
         }
 
@@ -98,20 +99,23 @@ macro_rules! field_impl {
             }
 
             fn random<R: Rng>(rng: &mut R) -> Self {
-                $name(U256::random(rng, &U256::from($modulus)))
+                // $name(U256::random(rng, &U256::from($modulus)))
+                todo!()
             }
 
             #[inline]
             fn is_zero(&self) -> bool {
-                self.0.is_zero()
+                self.0 == U256::ZERO
             }
 
             fn inverse(mut self) -> Option<Self> {
                 if self.is_zero() {
                     None
                 } else {
-                    self.0.invert(&U256::from($modulus));
-                    self.0.mul(&U256::from($rcubed), &U256::from($modulus), $inv);
+                    mono_invert(&mut self.0, &U256::from($modulus));
+                    mono_mul(&mut self.0, &U256::from($rcubed), &U256::from($modulus), $inv);
+                    
+                    
 
                     Some(self)
                 }
@@ -123,7 +127,7 @@ macro_rules! field_impl {
 
             #[inline]
             fn add(mut self, other: $name) -> $name {
-                self.0.add(&other.0, &U256::from($modulus));
+                self.0 = self.0.add_mod(&other.0, &U256::from($modulus));
 
                 self
             }
@@ -134,7 +138,7 @@ macro_rules! field_impl {
 
             #[inline]
             fn sub(mut self, other: $name) -> $name {
-                self.0.sub(&other.0, &U256::from($modulus));
+                self.0 = self.0.sub_mod(&other.0, &U256::from($modulus));
 
                 self
             }
@@ -145,7 +149,7 @@ macro_rules! field_impl {
 
             #[inline]
             fn mul(mut self, other: $name) -> $name {
-                self.0.mul(&other.0, &U256::from($modulus), $inv);
+                mono_mul(&mut self.0, &other.0, &U256::from($modulus), $inv);
 
                 self
             }
@@ -156,7 +160,7 @@ macro_rules! field_impl {
 
             #[inline]
             fn neg(mut self) -> $name {
-                self.0.neg(&U256::from($modulus));
+                self.0 = self.0.neg_mod(&U256::from($modulus));
 
                 self
             }
@@ -232,13 +236,13 @@ lazy_static::lazy_static! {
     ]);
 
 	pub static ref FQ_MINUS3_DIV4: Fq =
-		Fq::new(3.into()).expect("3 is a valid field element and static; qed").neg() *
-		Fq::new(4.into()).expect("4 is a valid field element and static; qed").inverse()
+		Fq::new(U256::from_u32(3)).expect("3 is a valid field element and static; qed").neg() *
+		Fq::new(U256::from_u32(4)).expect("4 is a valid field element and static; qed").inverse()
 			.expect("4 has inverse in Fq and is static; qed");
 
 	static ref FQ_MINUS1_DIV2: Fq =
-		Fq::new(1.into()).expect("1 is a valid field element and static; qed").neg() *
-		Fq::new(2.into()).expect("2 is a valid field element and static; qed").inverse()
+		Fq::new(U256::from_u32(1)).expect("1 is a valid field element and static; qed").neg() *
+		Fq::new(U256::from_u32(2)).expect("2 is a valid field element and static; qed").inverse()
 			.expect("2 has inverse in Fq and is static; qed");
 
 }
@@ -250,7 +254,7 @@ impl Fq {
         let a0 = a1 * (a1a);
 
         let mut am1 = *FQ;
-        am1.sub(&1.into(), &*FQ);
+        am1 = am1.sub_mod(&U256::ONE, &*FQ);
 
         if a0 == Fq::new(am1).unwrap() {
             None

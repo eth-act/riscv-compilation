@@ -36,11 +36,15 @@ impl<'a> Iterator for BitIterator<'a> {
 
 /// Divide by two
 #[inline]
-fn div2(a: &mut [u128; 2]) {
+fn div2(inp: &mut U256) {
+    let mut a = from_word_vec(&inp.to_words());
     let tmp = a[1] << 127;
     a[1] >>= 1;
     a[0] >>= 1;
     a[0] |= tmp;
+    
+    let res = to_word_vec(&a);
+    *inp = U256::from_words(res);
 }
 
 /// Multiply by two
@@ -78,18 +82,51 @@ pub(crate) fn adc(a: u128, b: u128, carry: &mut u128) -> u128 {
 }
 
 #[inline]
-fn add_nocarry(a: &mut [u128; 2], b: &[u128; 2]) {
+fn add_nocarry(inp_a: &mut U256, b: &U256) {
+    let mut a = from_word_vec(&inp_a.to_words());
+    let b = from_word_vec(&b.to_words());
+    
     let mut carry = 0;
 
-    for (a, b) in a.into_iter().zip(b.iter()) {
+    for (a, b) in a.iter_mut().zip(b.iter()) {
         *a = adc(*a, *b, &mut carry);
     }
-
+    
+    *inp_a = U256::from_words(to_word_vec(&a));
+    
     debug_assert!(0 == carry);
 }
 
 #[inline]
-pub(crate) fn sub_noborrow(a: &mut [u128; 2], b: &[u128; 2]) {
+pub(crate) fn sub_noborrow(inp_a: &mut U256, b: &U256) {
+    let mut a = from_word_vec(&inp_a.to_words());
+    let b = from_word_vec(&b.to_words());
+    
+    #[inline]
+    fn sbb(a: u128, b: u128, borrow: &mut u128) -> u128 {
+        let (a1, a0) = split_u128(a);
+        let (b1, b0) = split_u128(b);
+        let (b, r0) = split_u128((1 << 64) + a0 - b0 - *borrow);
+        let (b, r1) = split_u128((1 << 64) + a1 - b1 - ((b == 0) as u128));
+
+        *borrow = (b == 0) as u128;
+
+        combine_u128(r1, r0)
+    }
+
+    let mut borrow = 0;
+
+    for (a, b) in a.iter_mut().zip(b.iter()) {
+        *a = sbb(*a, *b, &mut borrow);
+    }
+    
+    *inp_a = U256::from_words(to_word_vec(&a));
+    
+    debug_assert!(0 == borrow);
+}
+
+#[inline]
+pub(crate) fn sub_noborrow_raw(a: &mut [u128; 2], b: &[u128; 2]) {
     #[inline]
     fn sbb(a: u128, b: u128, borrow: &mut u128) -> u128 {
         let (a1, a0) = split_u128(a);
@@ -249,5 +286,71 @@ pub(crate) fn u256_set_bit(data: &mut U256, n: usize, to: bool) -> bool {
         *data = U256::from_words(to_word_vec(&p_data));
         
         true
+    }
+}
+
+pub fn mono_mul(oprand: &mut U256, other: &U256, modulo: &U256, inv: u128) {
+    let mut p_oprand = from_word_vec(&oprand.to_words());
+    
+    mul_reduce(&mut p_oprand, &from_word_vec(&other.to_words()), &from_word_vec(&modulo.to_words()) , inv);
+    
+    if *oprand >= *modulo {
+        sub_noborrow_raw(&mut p_oprand, &from_word_vec(&modulo.to_words()));
+    }
+    
+    *oprand = U256::from_words(to_word_vec(&p_oprand));
+}
+
+pub(crate) fn u256_is_even(data: &U256) -> bool {
+    let p_data = from_word_vec(&data.to_words());
+    
+    p_data[0] & 1 == 0
+}
+
+pub fn mono_invert(oprand: &mut U256, modulo: &U256) {
+    // Guajardo Kumar Paar Pelzl
+    // Efficient Software-Implementation of Finite Fields with Applications to Cryptography
+    // Algorithm 16 (BEA for Inversion in Fp)
+
+    let mut u = *oprand;
+    let mut v = *modulo;
+    let mut b = U256::ONE;
+    let mut c = U256::ZERO;
+
+    while u != U256::ONE && v != U256::ONE {
+        while u256_is_even(&u) {
+            div2(&mut u);
+
+            if u256_is_even(&b) {
+                div2(&mut b);
+            } else {
+                add_nocarry(&mut b, &modulo);
+                div2(&mut b);
+            }
+        }
+        while u256_is_even(&v) {
+            div2(&mut v);
+
+            if u256_is_even(&c) {
+                div2(&mut c);
+            } else {
+                add_nocarry(&mut c, &modulo);
+                div2(&mut c);
+            }
+        }
+
+        if u >= v {
+            sub_noborrow(&mut u, &v);
+            b.sub_mod(&c, modulo);
+        } else {
+            sub_noborrow(&mut v, &u);
+            c.sub_mod(&b, modulo);
+        }
+    }
+
+    if u == U256::ONE {
+        *oprand = b;
+    } else {
+        *oprand = c;
     }
 }

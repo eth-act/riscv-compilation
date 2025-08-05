@@ -3,10 +3,10 @@ use core::cmp::Ordering;
 
 use byteorder::{BigEndian, ByteOrder};
 use crunchy::unroll;
-use crypto_bigint::{ConstZero, U256};
+use crypto_bigint::U256;
 use rand::Rng;
 
-use crate::arith::{adc, combine_u128, from_word_vec, mac_digit, mul2, split_u128, sub_noborrow, to_word_vec, u256_get_bit, u256_set_bit, Error};
+use crate::arith::{adc, combine_u128, from_word_vec, mac_digit, mul2, split_u128, sub_noborrow, sub_noborrow_raw, to_word_vec, u256_set_bit, Error};
 
 
 /// 512-bit, stack allocated biginteger for use in extension
@@ -107,7 +107,7 @@ impl U512 {
             assert!(u256_set_bit(&mut r, 0, self.get_bit(i).unwrap()));
             if &r >= modulo {
                 let mut r_in = from_word_vec(&r.to_words());
-                sub_noborrow(&mut r_in, &from_word_vec(&modulo.to_words()));
+                sub_noborrow_raw(&mut r_in, &from_word_vec(&modulo.to_words()));
                 r = U256::from_words(to_word_vec(&r_in));
                 
                 if q.is_some() && !u256_set_bit(q.as_mut().unwrap(), i, true) {
