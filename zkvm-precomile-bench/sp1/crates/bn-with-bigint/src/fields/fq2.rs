@@ -1,7 +1,7 @@
 use core::ops::{Add, Mul, Neg, Sub};
-use crypto_bigint::{U256, U512};
+use crypto_bigint::U256;
 use rand::Rng;
-use crate::fields::{const_fq, FieldElement, Fq};
+use crate::fields::{const_fq, u512::U512, FieldElement, Fq};
 
 
 #[inline]
@@ -175,7 +175,6 @@ impl Neg for Fq2 {
     type Output = Fq2;
 
     fn neg(self) -> Fq2 {
-        let er = U256::from_u32(3)
         Fq2 {
             c0: -self.c0,
             c1: -self.c1,
