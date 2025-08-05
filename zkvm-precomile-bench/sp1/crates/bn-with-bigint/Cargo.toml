@@ -13,9 +13,6 @@ edition = "2018"
 [features]
 default = []
 
-[[bench]]
-name = "api"
-
 [dependencies]
 rand = { version = "0.8.3", default-features = false }
 byteorder = { version = "1.0", features = ["i128"], default-features = false }

@@ -7,7 +7,7 @@ name = "bench-utils"
 version = "0.1.0"
 dependencies = [
  "rand",
- "substrate-bn",
+ "substrate-bn 0.6.0 (git+https://github.com/paritytech/bn?branch=master)",
 ]
 
 [[package]]
@@ -122,6 +122,17 @@ name = "spin"
 version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
+
+[[package]]
+name = "substrate-bn"
+version = "0.6.0"
+dependencies = [
+ "byteorder",
+ "crunchy",
+ "lazy_static",
+ "rand",
+ "rustc-hex",
+]
 
 [[package]]
 name = "substrate-bn"
