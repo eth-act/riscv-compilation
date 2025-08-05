@@ -15,6 +15,7 @@ pub use self::fp::{const_fq, Fq, Fr};
 pub use self::fq12::Fq12;
 pub use self::fq2::{fq2_nonresidue, Fq2};
 pub use self::fq6::Fq6;
+pub use self::u512::U512;
 
 pub trait FieldElement:
     Sized

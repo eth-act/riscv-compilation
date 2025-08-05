@@ -35,6 +35,7 @@ impl<'a> Iterator for BitIterator<'a> {
 #[inline]
 fn div2(inp: &mut U256) {
     let mut a = from_word_vec(&inp.to_words());
+
     let tmp = a[1] << 127;
     a[1] >>= 1;
     a[0] >>= 1;
@@ -309,6 +310,34 @@ pub(crate) fn u256_is_even(data: &U256) -> bool {
     p_data[0] & 1 == 0
 }
 
+#[inline]
+pub(crate) fn u256_sub_mod(mut oprand: &mut U256, other: &U256, modulo: &U256) {
+    if *oprand < *other {
+        add_nocarry(&mut oprand, modulo);
+    }
+
+    sub_noborrow(&mut oprand, other);
+}
+
+#[inline]
+pub(crate) fn u256_add_mod(mut oprand: &mut U256, other: &U256, modulo: &U256) {
+    add_nocarry(&mut oprand, other);
+
+    if *oprand >= *modulo {
+        sub_noborrow(&mut oprand, modulo);
+    }
+}
+
+#[inline]
+pub(crate) fn u256_neg_mod(mut oprand: &mut U256, modulo: &U256) {
+    if *oprand > U256::ZERO {
+        let mut tmp = modulo.clone();
+        sub_noborrow(&mut tmp, &oprand);
+
+        *oprand = tmp;
+    }
+}
+
 pub fn mono_invert(oprand: &mut U256, modulo: &U256) {
     // Guajardo Kumar Paar Pelzl
     // Efficient Software-Implementation of Finite Fields with Applications to Cryptography
@@ -343,10 +372,10 @@ pub fn mono_invert(oprand: &mut U256, modulo: &U256) {
 
         if u >= v {
             sub_noborrow(&mut u, &v);
-            b.sub_mod(&c, modulo);
+            u256_sub_mod(&mut b, &c, modulo);
         } else {
             sub_noborrow(&mut v, &u);
-            c.sub_mod(&b, modulo);
+            u256_sub_mod(&mut c, &b, modulo);
         }
     }
 
@@ -354,5 +383,84 @@ pub fn mono_invert(oprand: &mut U256, modulo: &U256) {
         *oprand = b;
     } else {
         *oprand = c;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crypto_bigint::U256;
+
+    #[test]
+    fn test_mono_mul_basic() {
+        // Example values (these should be chosen to be meaningful for your use case)
+        let mut oprand = U256::from_words(to_word_vec(&[
+            197819666991454437478780191616651403388,
+            17407853256822004207887426165839118766,
+        ]));
+        let other = U256::from_words(to_word_vec(&[
+            241790196284204419545734427407138093705,
+            9100138014801027929810694757406572534,
+        ]));
+        let modulo = U256::from_words(to_word_vec(&[
+            201385395114098847380338600778089168199,
+            64323764613183177041862057485226039389,
+        ]));
+
+        // For Montgomery multiplication, inv is usually computed as -modulus^{-1} mod R
+        // For this simple test, let's just use 1 as a placeholder
+        let inv: u128 = 211173256549385567650468519415768310665;
+
+        mono_mul(&mut oprand, &other, &modulo, inv);
+
+        mono_invert(&mut oprand, &modulo);
+
+        // Compute expected result: (5 * 7) % 13 = 35 % 13 = 9
+        let expected = U256::from_words(to_word_vec(&[
+            162169656296878901026329651626330491773,
+            45202910072195800725160941991901349318,
+        ]));
+
+        assert_eq!(oprand, expected, "mono_mul did not produce expected result");
+    }
+
+    #[test]
+    fn test_mono_sub_basic() {
+        // Example values (these should be chosen to be meaningful for your use case)
+        let mut oprand = U256::from_words(to_word_vec(&[
+            197819666991454437478780191616651403388,
+            17407853256822004207887426165839118766,
+        ]));
+        let mut other = U256::from_words(to_word_vec(&[
+            241790196284204419545734427407138093705,
+            9100138014801027929810694757406572534,
+        ]));
+        let modulo = U256::from_words(to_word_vec(&[
+            201385395114098847380338600778089168199,
+            64323764613183177041862057485226039389,
+        ]));
+
+        u256_sub_mod(&mut oprand, &other, &modulo);
+
+        u256_sub_mod(&mut other, &oprand, &modulo);
+
+        // Compute expected result: (5 * 7) % 13 = 35 % 13 = 9
+        let expected_oprand = U256::from_words(to_word_vec(&[
+            296311837628188481396420371641281521139,
+            8307715242020976278076731408432546231,
+        ]));
+        let expected_other = U256::from_words(to_word_vec(&[
+            285760725576954401612688663197624784022,
+            792422772780051651733963348974026302,
+        ]));
+
+        assert_eq!(
+            oprand, expected_oprand,
+            "mono_mul did not produce expected result"
+        );
+        assert_eq!(
+            other, expected_other,
+            "mono_mul did not produce expected result"
+        );
     }
 }

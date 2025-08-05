@@ -1,4 +1,4 @@
-use crate::arith::{mono_invert, mono_mul, u256_set_bit};
+use crate::arith::{mono_invert, mono_mul, u256_add_mod, u256_neg_mod, u256_set_bit, u256_sub_mod};
 use crate::fields::u512::U512;
 use crate::fields::FieldElement;
 use alloc::vec::Vec;
@@ -136,7 +136,7 @@ macro_rules! field_impl {
 
             #[inline]
             fn add(mut self, other: $name) -> $name {
-                self.0 = self.0.add_mod(&other.0, &U256::from($modulus));
+                u256_add_mod(&mut self.0, &other.0, &U256::from($modulus));
 
                 self
             }
@@ -147,7 +147,7 @@ macro_rules! field_impl {
 
             #[inline]
             fn sub(mut self, other: $name) -> $name {
-                self.0 = self.0.sub_mod(&other.0, &U256::from($modulus));
+                u256_sub_mod(&mut self.0, &other.0, &U256::from($modulus));
 
                 self
             }
@@ -169,7 +169,7 @@ macro_rules! field_impl {
 
             #[inline]
             fn neg(mut self) -> $name {
-                self.0 = self.0.neg_mod(&U256::from($modulus));
+                u256_neg_mod(&mut self.0, &U256::from($modulus));
 
                 self
             }
@@ -263,7 +263,7 @@ impl Fq {
         let a0 = a1 * (a1a);
 
         let mut am1 = *FQ;
-        am1 = am1.sub_mod(&U256::ONE, &*FQ);
+        u256_sub_mod(&mut am1, &U256::ONE, &*FQ);
 
         if a0 == Fq::new(am1).unwrap() {
             None

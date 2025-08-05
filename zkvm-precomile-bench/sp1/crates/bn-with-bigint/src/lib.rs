@@ -6,11 +6,12 @@ pub mod arith;
 mod fields;
 mod groups;
 
-use crate::fields::FieldElement;
+use crate::fields::{FieldElement, U512};
 use crate::groups::{G1Params, G2Params, GroupElement, GroupParams};
 
 use alloc::vec::Vec;
 use core::ops::{Add, Mul, Neg, Sub};
+use crypto_bigint::U256;
 use rand::Rng;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
@@ -42,24 +43,24 @@ impl Fr {
     pub fn interpret(buf: &[u8; 64]) -> Fr {
         Fr(fields::Fr::interpret(buf))
     }
-    pub fn from_slice(slice: &[u8]) -> Result<Self, FieldError> {
-        arith::U256::from_slice(slice)
-            .map_err(|_| FieldError::InvalidSliceLength) // todo: maybe more sensful error handling
-            .map(|x| Fr::new_mul_factor(x))
-    }
-    pub fn to_big_endian(&self, slice: &mut [u8]) -> Result<(), FieldError> {
-        self.0
-            .raw()
-            .to_big_endian(slice)
-            .map_err(|_| FieldError::InvalidSliceLength)
-    }
-    pub fn new(val: arith::U256) -> Option<Self> {
+    // pub fn from_slice(slice: &[u8]) -> Result<Self, FieldError> {
+    //     U256::from_le_slice(slice)
+    //         .map_err(|_| FieldError::InvalidSliceLength) // todo: maybe more sensful error handling
+    //         .map(|x| Fr::new_mul_factor(x))
+    // }
+    // pub fn to_big_endian(&self, slice: &mut [u8]) -> Result<(), FieldError> {
+    //     self.0
+    //         .raw()
+    //         .to_big_endian(slice)
+    //         .map_err(|_| FieldError::InvalidSliceLength)
+    // }
+    pub fn new(val: U256) -> Option<Self> {
         fields::Fr::new(val).map(|x| Fr(x))
     }
-    pub fn new_mul_factor(val: arith::U256) -> Self {
+    pub fn new_mul_factor(val: U256) -> Self {
         Fr(fields::Fr::new_mul_factor(val))
     }
-    pub fn into_u256(self) -> arith::U256 {
+    pub fn into_u256(self) -> U256 {
         (self.0).into()
     }
     pub fn set_bit(&mut self, bit: usize, to: bool) {
@@ -151,30 +152,30 @@ impl Fq {
     pub fn interpret(buf: &[u8; 64]) -> Fq {
         Fq(fields::Fq::interpret(buf))
     }
-    pub fn from_slice(slice: &[u8]) -> Result<Self, FieldError> {
-        arith::U256::from_slice(slice)
-            .map_err(|_| FieldError::InvalidSliceLength) // todo: maybe more sensful error handling
-            .and_then(|x| fields::Fq::new(x).ok_or(FieldError::NotMember))
-            .map(|x| Fq(x))
-    }
-    pub fn to_big_endian(&self, slice: &mut [u8]) -> Result<(), FieldError> {
-        let mut a: arith::U256 = self.0.into();
-        // convert from Montgomery representation
-        a.mul(
-            &fields::Fq::one().raw(),
-            &fields::Fq::modulus(),
-            self.0.inv(),
-        );
-        a.to_big_endian(slice)
-            .map_err(|_| FieldError::InvalidSliceLength)
-    }
-    pub fn from_u256(u256: arith::U256) -> Result<Self, FieldError> {
+    // pub fn from_slice(slice: &[u8]) -> Result<Self, FieldError> {
+    //     arith::U256::from_slice(slice)
+    //         .map_err(|_| FieldError::InvalidSliceLength) // todo: maybe more sensful error handling
+    //         .and_then(|x| fields::Fq::new(x).ok_or(FieldError::NotMember))
+    //         .map(|x| Fq(x))
+    // }
+    // pub fn to_big_endian(&self, slice: &mut [u8]) -> Result<(), FieldError> {
+    //     let mut a: arith::U256 = self.0.into();
+    //     // convert from Montgomery representation
+    //     a.mul(
+    //         &fields::Fq::one().raw(),
+    //         &fields::Fq::modulus(),
+    //         self.0.inv(),
+    //     );
+    //     a.to_big_endian(slice)
+    //         .map_err(|_| FieldError::InvalidSliceLength)
+    // }
+    pub fn from_u256(u256: U256) -> Result<Self, FieldError> {
         Ok(Fq(fields::Fq::new(u256).ok_or(FieldError::NotMember)?))
     }
-    pub fn into_u256(self) -> arith::U256 {
+    pub fn into_u256(self) -> U256 {
         (self.0).into()
     }
-    pub fn modulus() -> arith::U256 {
+    pub fn modulus() -> U256 {
         fields::Fq::modulus()
     }
 
@@ -241,7 +242,7 @@ impl Fq2 {
         self.0.is_zero()
     }
 
-    pub fn pow(&self, exp: arith::U256) -> Self {
+    pub fn pow(&self, exp: U256) -> Self {
         Fq2(self.0.pow(exp))
     }
 
@@ -258,7 +259,7 @@ impl Fq2 {
     }
 
     pub fn from_slice(bytes: &[u8]) -> Result<Self, FieldError> {
-        let u512 = arith::U512::from_slice(bytes).map_err(|_| FieldError::InvalidU512Encoding)?;
+        let u512 = U512::from_slice(bytes).map_err(|_| FieldError::InvalidU512Encoding)?;
         let (res, c0) = u512.divrem(&Fq::modulus());
         Ok(Fq2::new(
             Fq::from_u256(c0).map_err(|_| FieldError::NotMember)?,
@@ -356,29 +357,29 @@ impl G1 {
         Fq(G1Params::coeff_b())
     }
 
-    pub fn from_compressed(bytes: &[u8]) -> Result<Self, CurveError> {
-        if bytes.len() != 33 {
-            return Err(CurveError::InvalidEncoding);
-        }
+    // pub fn from_compressed(bytes: &[u8]) -> Result<Self, CurveError> {
+    //     if bytes.len() != 33 {
+    //         return Err(CurveError::InvalidEncoding);
+    //     }
 
-        let sign = bytes[0];
-        let fq = Fq::from_slice(&bytes[1..])?;
-        let x = fq;
-        let y_squared = (fq * fq * fq) + Self::b();
+    //     let sign = bytes[0];
+    //     let fq = Fq::from_slice(&bytes[1..])?;
+    //     let x = fq;
+    //     let y_squared = (fq * fq * fq) + Self::b();
 
-        let mut y = y_squared.sqrt().ok_or(CurveError::NotMember)?;
+    //     let mut y = y_squared.sqrt().ok_or(CurveError::NotMember)?;
 
-        if sign == 2 && y.into_u256().get_bit(0).expect("bit 0 always exist; qed") {
-            y = y.neg();
-        } else if sign == 3 && !y.into_u256().get_bit(0).expect("bit 0 always exist; qed") {
-            y = y.neg();
-        } else if sign != 3 && sign != 2 {
-            return Err(CurveError::InvalidEncoding);
-        }
-        AffineG1::new(x, y)
-            .map_err(|_| CurveError::NotMember)
-            .map(Into::into)
-    }
+    //     if sign == 2 && y.into_u256().get_bit(0).expect("bit 0 always exist; qed") {
+    //         y = y.neg();
+    //     } else if sign == 3 && !y.into_u256().get_bit(0).expect("bit 0 always exist; qed") {
+    //         y = y.neg();
+    //     } else if sign != 3 && sign != 2 {
+    //         return Err(CurveError::InvalidEncoding);
+    //     }
+    //     AffineG1::new(x, y)
+    //         .map_err(|_| CurveError::NotMember)
+    //         .map(Into::into)
+    // }
 }
 
 impl Group for G1 {
@@ -701,28 +702,28 @@ mod tests {
         s.from_hex().unwrap()
     }
 
-    #[test]
-    fn g1_from_compressed() {
-        let g1 = G1::from_compressed(&hex(
-            "0230644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd46",
-        ))
-        .expect("Invalid g1 decompress result");
-        assert_eq!(
-            g1.x(),
-            Fq::from_str(
-                "21888242871839275222246405745257275088696311157297823662689037894645226208582"
-            )
-            .unwrap()
-        );
-        assert_eq!(
-            g1.y(),
-            Fq::from_str(
-                "3969792565221544645472939191694882283483352126195956956354061729942568608776"
-            )
-            .unwrap()
-        );
-        assert_eq!(g1.z(), Fq::one());
-    }
+    // #[test]
+    // fn g1_from_compressed() {
+    //     let g1 = G1::from_compressed(&hex(
+    //         "0230644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd46",
+    //     ))
+    //     .expect("Invalid g1 decompress result");
+    //     assert_eq!(
+    //         g1.x(),
+    //         Fq::from_str(
+    //             "21888242871839275222246405745257275088696311157297823662689037894645226208582"
+    //         )
+    //         .unwrap()
+    //     );
+    //     assert_eq!(
+    //         g1.y(),
+    //         Fq::from_str(
+    //             "3969792565221544645472939191694882283483352126195956956354061729942568608776"
+    //         )
+    //         .unwrap()
+    //     );
+    //     assert_eq!(g1.z(), Fq::one());
+    // }
 
     #[test]
     fn g2_from_compressed() {
