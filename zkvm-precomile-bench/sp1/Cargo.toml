@@ -1,2 +1,2 @@
 [workspace]
-members = ["crates/bench-utils", "crates/bn-with-bigint"]
+members = ["bin/bigint-patched","bin/bn-patched","crates/bench-utils", "crates/bn-with-bigint"]
