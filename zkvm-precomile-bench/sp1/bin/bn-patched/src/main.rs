@@ -1,3 +1,7 @@
+use bench_utils::perform_100_bn254_pairings_batched_bn;
+
+
+
 fn main() {
-    println!("Hello, world!");
+    perform_100_bn254_pairings_batched_bn();
 }
