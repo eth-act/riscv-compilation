@@ -106,7 +106,7 @@ macro_rules! field_impl {
 
             fn random<R: Rng>(rng: &mut R) -> Self {
                 // $name(U256::random(rng, &U256::from($modulus)))
-                todo!()
+                todo!("Source rand elsewhere")
             }
 
             #[inline]

@@ -1,5 +1,5 @@
 [package]
-name = "substrate-bn"
+name = "bn-with-bigint"
 version = "0.6.0"
 authors = ["Sean Bowe <ewillbefull@gmail.com>", "Parity Technologies <admin@parity.io>"]
 description = "Pairing cryptography with the Barreto-Naehrig curve"

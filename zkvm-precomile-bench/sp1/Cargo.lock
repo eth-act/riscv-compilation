@@ -12,17 +12,36 @@ checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 name = "bench-utils"
 version = "0.1.0"
 dependencies = [
+ "bn-with-bigint",
  "rand",
- "substrate-bn 0.6.0 (git+https://github.com/paritytech/bn?branch=master)",
+ "substrate-bn",
 ]
 
 [[package]]
 name = "bigint-patched"
 version = "0.1.0"
+dependencies = [
+ "bench-utils",
+]
 
 [[package]]
 name = "bn-patched"
 version = "0.1.0"
+dependencies = [
+ "bench-utils",
+]
+
+[[package]]
+name = "bn-with-bigint"
+version = "0.6.0"
+dependencies = [
+ "byteorder",
+ "crunchy",
+ "crypto-bigint",
+ "lazy_static",
+ "rand",
+ "rustc-hex",
+]
 
 [[package]]
 name = "byteorder"
@@ -155,18 +174,6 @@ name = "spin"
 version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
-
-[[package]]
-name = "substrate-bn"
-version = "0.6.0"
-dependencies = [
- "byteorder",
- "crunchy",
- "crypto-bigint",
- "lazy_static",
- "rand",
- "rustc-hex",
-]
 
 [[package]]
 name = "substrate-bn"

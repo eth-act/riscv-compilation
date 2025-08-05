@@ -1,4 +1,4 @@
-use substrate_bn::{pairing, Fr, Group, G1, G2};
+use bn_with_bigint::{pairing, Fr, Group, G1, G2};
 
 fn main() {
     let rng = &mut rand::thread_rng();
