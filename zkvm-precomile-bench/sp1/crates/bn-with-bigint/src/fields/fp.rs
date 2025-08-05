@@ -2,7 +2,8 @@ use alloc::vec::Vec;
 use core::ops::{Add, Mul, Neg, Sub};
 use rand::Rng;
 use crate::fields::FieldElement;
-use crate::arith::{U256, U512};
+use crypto_bigint::U256;
+
 
 macro_rules! field_impl {
     ($name:ident, $modulus:expr, $rsquared:expr, $rcubed:expr, $one:expr, $inv:expr) => {

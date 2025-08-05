@@ -16,6 +16,10 @@ pub struct BitIterator<'a> {
     n: usize,
 }
 
+pub fn u256_bits(int: &U256) -> BitIterator {
+    BitIterator { int, n: 256 }
+}
+
 impl<'a> Iterator for BitIterator<'a> {
     type Item = bool;
 

@@ -1,7 +1,8 @@
 use core::ops::{Add, Mul, Neg, Sub};
+use crypto_bigint::U256;
 use rand::Rng;
-use crate::fields::{const_fq, FieldElement, Fq, Fq2, Fq6};
-use crate::arith::U256;
+use crate::{arith::u256_bits, fields::{const_fq, FieldElement, Fq, Fq2, Fq6}};
+
 
 fn frobenius_coeffs_c1(power: usize) -> Fq2 {
     match power % 12 {
@@ -251,7 +252,7 @@ impl Fq12 {
 
         let mut found_one = false;
 
-        for i in by.into().bits() {
+        for i in u256_bits(&by.into()) {
             if found_one {
                 res = res.cyclotomic_squared();
             }
