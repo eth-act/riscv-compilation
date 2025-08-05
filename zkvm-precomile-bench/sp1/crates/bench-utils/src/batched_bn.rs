@@ -1,16 +1,17 @@
 use substrate_bn::{Fr, G1, G2, Group, pairing};
+use crate::init_rands_bn_batched;
 
 
 pub fn perform_100_bn254_pairings_batched_bn() {
-    let rng = &mut rand::thread_rng();
+    let rands = init_rands_bn_batched();
     
     
-    for _ in 0..10 {
+    for rand in rands {
     
         // Generate private keys
-        let alice_sk = Fr::random(rng);
-        let bob_sk = Fr::random(rng);
-        let carol_sk = Fr::random(rng);
+        let alice_sk = rand;
+        let bob_sk = rand + Fr::one();
+        let carol_sk = bob_sk + Fr::one();
     
         // Generate public keys in G1 and G2
         let (alice_pk1, alice_pk2) = (G1::one() * alice_sk, G2::one() * alice_sk);
