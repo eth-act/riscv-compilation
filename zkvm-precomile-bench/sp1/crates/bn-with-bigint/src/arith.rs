@@ -149,6 +149,7 @@ pub(crate) fn sub_noborrow_raw(a: &mut [u128; 2], b: &[u128; 2]) {
 // TODO: Make `from_index` a const param
 #[inline(always)]
 pub(crate) fn mac_digit(from_index: usize, acc: &mut [u128; 4], b: &[u128; 2], c: u128) {
+    
     #[inline]
     fn mac_with_carry(a: u128, b: u128, c: u128, carry: &mut u128) -> u128 {
         let (b_hi, b_lo) = split_u128(b);
@@ -195,7 +196,7 @@ pub(crate) fn mac_digit(from_index: usize, acc: &mut [u128; 4], b: &[u128; 2], c
             }
         }
     }
-
+    
     debug_assert!(carry == 0);
 }
 
@@ -329,11 +330,12 @@ pub(crate) fn u256_add_mod(mut oprand: &mut U256, other: &U256, modulo: &U256) {
 }
 
 #[inline]
-pub(crate) fn u256_neg_mod(mut oprand: &mut U256, modulo: &U256) {
+pub(crate) fn u256_neg_mod(oprand: &mut U256, modulo: &U256) {  
     if *oprand > U256::ZERO {
         let mut tmp = modulo.clone();
         sub_noborrow(&mut tmp, &oprand);
-
+        
+        // panic!("Temp: {:?}", from_word_vec(&tmp.to_words()));
         *oprand = tmp;
     }
 }
@@ -384,6 +386,16 @@ pub fn mono_invert(oprand: &mut U256, modulo: &U256) {
     } else {
         *oprand = c;
     }
+}
+
+pub fn vec4_int_to_u256(v: &[i128; 4]) -> U256 {
+    let limbs: [u64; 4] = [
+            v[0] as u64,
+            v[1] as u64,
+            v[2] as u64,
+            v[3] as u64,
+        ];
+    U256::from_words(limbs)
 }
 
 #[cfg(test)]

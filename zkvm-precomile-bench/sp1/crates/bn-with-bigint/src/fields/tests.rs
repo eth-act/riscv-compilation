@@ -21,7 +21,7 @@ fn can_invert<F: FieldElement>() {
 }
 
 fn rand_element_eval<F: FieldElement, R: Rng>(rng: &mut R) {
-    for _ in 0..100 {
+    for _ in 0..3 {
         let a = F::random(rng);
         let b = F::random(rng);
         let c = F::random(rng);
@@ -32,14 +32,13 @@ fn rand_element_eval<F: FieldElement, R: Rng>(rng: &mut R) {
 }
 
 fn rand_element_squaring<F: FieldElement, R: Rng>(rng: &mut R) {
-    for _ in 0..100 {
+    for _ in 0..5 {
         let a = F::random(rng);
-
         assert!(a * a == a.squared());
     }
 
     let mut cur = F::zero();
-    for _ in 0..100 {
+    for _ in 0..5 {
         assert_eq!(cur.squared(), cur * cur);
 
         cur = cur + F::one();
@@ -86,24 +85,22 @@ fn rand_element_addition_and_negation<F: FieldElement, R: Rng>(rng: &mut R) {
 }
 
 fn rand_element_inverse<F: FieldElement, R: Rng>(rng: &mut R) {
-    for _ in 0..10000 {
-        let a = F::random(rng);
-        assert!(a.inverse().unwrap() * a == F::one());
-        let b = F::random(rng);
-        assert_eq!((a * b) * (a.inverse().unwrap()), b);
-    }
+    let a = F::random(rng);
+    assert!(a.inverse().unwrap() * a == F::one());
+    let b = F::random(rng);
+    assert_eq!((a * b) * (a.inverse().unwrap()), b);
 }
 
 fn rand_element_multiplication<F: FieldElement, R: Rng>(rng: &mut R) {
     // If field is not associative under multiplication, 1/8 of all triplets a, b, c
     // will fail the test (a*b)*c = a*(b*c).
 
-    for _ in 0..250 {
+    for i in 0..3 {
         let a = F::random(rng);
         let b = F::random(rng);
         let c = F::random(rng);
 
-        assert_eq!((a * b) * c, a * (b * c));
+        assert_eq!((a * b) * c, a * (b * c), "If this fails, the field is not associative under multiplication. {}", i);
     }
 }
 

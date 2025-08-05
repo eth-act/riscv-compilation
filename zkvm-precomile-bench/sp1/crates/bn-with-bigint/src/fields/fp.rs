@@ -1,9 +1,9 @@
-use crate::arith::{mono_invert, mono_mul, u256_add_mod, u256_neg_mod, u256_set_bit, u256_sub_mod};
+use crate::arith::{from_word_vec, mono_invert, mono_mul, to_word_vec, u256_add_mod, u256_neg_mod, u256_set_bit, u256_sub_mod, vec4_int_to_u256};
 use crate::fields::u512::U512;
 use crate::fields::FieldElement;
 use alloc::vec::Vec;
 use core::ops::{Add, Mul, Neg, Sub};
-use crypto_bigint::{Zero, U256};
+use crypto_bigint::U256;
 use rand::Rng;
 
 macro_rules! field_impl {
@@ -105,8 +105,7 @@ macro_rules! field_impl {
             }
 
             fn random<R: Rng>(rng: &mut R) -> Self {
-                // $name(U256::random(rng, &U256::from($modulus)))
-                todo!("Source rand elsewhere")
+                $name(U512::random(rng).divrem(&vec4_int_to_u256(&$modulus)).1)
             }
 
             #[inline]
@@ -279,6 +278,23 @@ pub fn const_fq(i: [u64; 4]) -> Fq {
 }
 
 #[test]
+fn test_just_mul() {
+    let rng = &mut ::rand::thread_rng();
+    
+    let a = Fr::random(rng);
+    let b = Fr::random(rng);
+    
+    // let a = Fr::new(U256::from_words(to_word_vec(&[231790918448216886216790382888498461438, 1102100366002730742298132915978564164]))).unwrap();
+    // let b = Fr::new(U256::from_words(to_word_vec(&[268798920562604851899424664552067855916, 19659637233304282737006916657082349652]))).unwrap();
+    
+    let c = a * b;
+    let s = a.squared();
+    let t = c + s;
+    let u = t - c - s;
+    let neg_u = - a;
+}
+
+#[test]
 fn test_rsquared() {
     let rng = &mut ::rand::thread_rng();
 
@@ -307,6 +323,8 @@ fn sqrt_fq() {
     )
     .unwrap();
     let fq2 = Fq::from_str("348579348568").unwrap();
+    
+    
 
     assert_eq!(fq1, fq2.sqrt().expect("348579348568 is quadratic residue"));
 }
