@@ -6,8 +6,10 @@ use crunchy::unroll;
 use crypto_bigint::U256;
 use rand::Rng;
 
-use crate::arith::{adc, combine_u128, from_word_vec, mac_digit, mul2, split_u128, sub_noborrow, sub_noborrow_raw, to_word_vec, u256_set_bit, Error};
-
+use crate::arith::{
+    adc, combine_u128, from_word_vec, mac_digit, mul2, split_u128, sub_noborrow, sub_noborrow_raw,
+    to_word_vec, u256_set_bit, Error,
+};
 
 /// 512-bit, stack allocated biginteger for use in extension
 /// field serialization and scalar interpretation.
@@ -40,29 +42,29 @@ impl U512 {
         let mut carry = 0;
 
         debug_assert_eq!(res.len(), 4);
-                unroll! {
-                    for i in 0..2 {
-                        res[i] = adc(res[i], from_word_vec(&c0.to_words())[i], &mut carry);
-                    }
-                }
-        
-                unroll! {
-                    for i in 0..2 {
-                        let (a1, a0) = split_u128(res[i + 2]);
-                        let (c, r0) = split_u128(a0 + carry);
-                        let (c, r1) = split_u128(a1 + c);
-                        carry = c;
-        
-                        res[i + 2] = combine_u128(r1, r0);
-                    }
-                }
-        
-                debug_assert!(0 == carry);
-        
-                U512(res)
+        unroll! {
+            for i in 0..2 {
+                res[i] = adc(res[i], from_word_vec(&c0.to_words())[i], &mut carry);
+            }
+        }
+
+        unroll! {
+            for i in 0..2 {
+                let (a1, a0) = split_u128(res[i + 2]);
+                let (c, r0) = split_u128(a0 + carry);
+                let (c, r1) = split_u128(a1 + c);
+                carry = c;
+
+                res[i + 2] = combine_u128(r1, r0);
+            }
+        }
+
+        debug_assert!(0 == carry);
+
+        U512(res)
     }
 
-     pub fn from_slice(s: &[u8]) -> Result<U512, Error> {
+    pub fn from_slice(s: &[u8]) -> Result<U512, Error> {
         if s.len() != 64 {
             return Err(Error::InvalidLength {
                 expected: 32,
@@ -109,7 +111,7 @@ impl U512 {
                 let mut r_in = from_word_vec(&r.to_words());
                 sub_noborrow_raw(&mut r_in, &from_word_vec(&modulo.to_words()));
                 r = U256::from_words(to_word_vec(&r_in));
-                
+
                 if q.is_some() && !u256_set_bit(q.as_mut().unwrap(), i, true) {
                     q = None
                 }

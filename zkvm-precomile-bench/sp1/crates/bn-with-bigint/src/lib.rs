@@ -7,7 +7,7 @@ mod fields;
 mod groups;
 
 use crate::fields::FieldElement;
-use crate::groups::{GroupElement, G1Params, G2Params, GroupParams};
+use crate::groups::{G1Params, G2Params, GroupElement, GroupParams};
 
 use alloc::vec::Vec;
 use core::ops::{Add, Mul, Neg, Sub};
@@ -267,7 +267,6 @@ impl Fq2 {
     }
 }
 
-
 impl Add<Fq2> for Fq2 {
     type Output = Self;
 
@@ -300,8 +299,8 @@ impl Mul for Fq2 {
     }
 }
 
-pub trait Group
-    : Send
+pub trait Group:
+    Send
     + Sync
     + Copy
     + Clone
@@ -311,7 +310,8 @@ pub trait Group
     + Add<Self, Output = Self>
     + Sub<Self, Output = Self>
     + Neg<Output = Self>
-    + Mul<Fr, Output = Self> {
+    + Mul<Fr, Output = Self>
+{
     fn zero() -> Self;
     fn one() -> Self;
     fn random<R: Rng>(rng: &mut R) -> Self;
@@ -357,7 +357,9 @@ impl G1 {
     }
 
     pub fn from_compressed(bytes: &[u8]) -> Result<Self, CurveError> {
-        if bytes.len() != 33 { return Err(CurveError::InvalidEncoding); }
+        if bytes.len() != 33 {
+            return Err(CurveError::InvalidEncoding);
+        }
 
         let sign = bytes[0];
         let fq = Fq::from_slice(&bytes[1..])?;
@@ -366,12 +368,16 @@ impl G1 {
 
         let mut y = y_squared.sqrt().ok_or(CurveError::NotMember)?;
 
-        if sign == 2 && y.into_u256().get_bit(0).expect("bit 0 always exist; qed") { y = y.neg(); }
-        else if sign == 3 && !y.into_u256().get_bit(0).expect("bit 0 always exist; qed") { y = y.neg(); }
-        else if sign != 3 && sign != 2 {
+        if sign == 2 && y.into_u256().get_bit(0).expect("bit 0 always exist; qed") {
+            y = y.neg();
+        } else if sign == 3 && !y.into_u256().get_bit(0).expect("bit 0 always exist; qed") {
+            y = y.neg();
+        } else if sign != 3 && sign != 2 {
             return Err(CurveError::InvalidEncoding);
         }
-        AffineG1::new(x, y).map_err(|_| CurveError::NotMember).map(Into::into)
+        AffineG1::new(x, y)
+            .map_err(|_| CurveError::NotMember)
+            .map(Into::into)
     }
 }
 
@@ -504,8 +510,9 @@ impl G2 {
     }
 
     pub fn from_compressed(bytes: &[u8]) -> Result<Self, CurveError> {
-
-        if bytes.len() != 65 { return Err(CurveError::InvalidEncoding); }
+        if bytes.len() != 65 {
+            return Err(CurveError::InvalidEncoding);
+        }
 
         let sign = bytes[0];
         let x = Fq2::from_slice(&bytes[1..])?;
@@ -516,13 +523,25 @@ impl G2 {
 
         let y_gt = y.0.to_u512() > y_neg.0.to_u512();
 
-        let e_y = if sign == 10 { if y_gt { y_neg } else { y } }
-        else if sign == 11 { if y_gt { y } else { y_neg } }
-        else {
+        let e_y = if sign == 10 {
+            if y_gt {
+                y_neg
+            } else {
+                y
+            }
+        } else if sign == 11 {
+            if y_gt {
+                y
+            } else {
+                y_neg
+            }
+        } else {
             return Err(CurveError::InvalidEncoding);
         };
 
-        AffineG2::new(x, e_y).map_err(|_| CurveError::NotMember).map(Into::into)
+        AffineG2::new(x, e_y)
+            .map_err(|_| CurveError::NotMember)
+            .map(Into::into)
     }
 }
 
@@ -613,8 +632,8 @@ pub fn pairing(p: G1, q: G2) -> Gt {
 }
 
 pub fn pairing_batch(pairs: &[(G1, G2)]) -> Gt {
-    let mut ps : Vec<groups::G1> = Vec::new();
-    let mut qs : Vec<groups::G2> = Vec::new();
+    let mut ps: Vec<groups::G1> = Vec::new();
+    let mut qs: Vec<groups::G2> = Vec::new();
     for (p, q) in pairs {
         ps.push(p.0);
         qs.push(q.0);
@@ -623,10 +642,14 @@ pub fn pairing_batch(pairs: &[(G1, G2)]) -> Gt {
 }
 
 pub fn miller_loop_batch(pairs: &[(G2, G1)]) -> Result<Gt, CurveError> {
-    let mut ps : Vec<groups::G2Precomp> = Vec::new();
-    let mut qs : Vec<groups::AffineG<groups::G1Params>> = Vec::new();
+    let mut ps: Vec<groups::G2Precomp> = Vec::new();
+    let mut qs: Vec<groups::AffineG<groups::G1Params>> = Vec::new();
     for (p, q) in pairs {
-        ps.push(p.0.to_affine().ok_or(CurveError::ToAffineConversion)?.precompute());
+        ps.push(
+            p.0.to_affine()
+                .ok_or(CurveError::ToAffineConversion)?
+                .precompute(),
+        );
         qs.push(q.0.to_affine().ok_or(CurveError::ToAffineConversion)?);
     }
     Ok(Gt(groups::miller_loop_batch(&ps, &qs)))
@@ -670,8 +693,8 @@ impl From<AffineG2> for G2 {
 
 #[cfg(test)]
 mod tests {
+    use super::{Fq, Fq2, G1, G2};
     use alloc::vec::Vec;
-    use super::{G1, Fq, G2, Fq2};
 
     fn hex(s: &'static str) -> Vec<u8> {
         use rustc_hex::FromHex;
@@ -680,13 +703,26 @@ mod tests {
 
     #[test]
     fn g1_from_compressed() {
-        let g1 = G1::from_compressed(&hex("0230644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd46"))
-            .expect("Invalid g1 decompress result");
-        assert_eq!(g1.x(), Fq::from_str("21888242871839275222246405745257275088696311157297823662689037894645226208582").unwrap());
-        assert_eq!(g1.y(), Fq::from_str("3969792565221544645472939191694882283483352126195956956354061729942568608776").unwrap());
+        let g1 = G1::from_compressed(&hex(
+            "0230644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd46",
+        ))
+        .expect("Invalid g1 decompress result");
+        assert_eq!(
+            g1.x(),
+            Fq::from_str(
+                "21888242871839275222246405745257275088696311157297823662689037894645226208582"
+            )
+            .unwrap()
+        );
+        assert_eq!(
+            g1.y(),
+            Fq::from_str(
+                "3969792565221544645472939191694882283483352126195956956354061729942568608776"
+            )
+            .unwrap()
+        );
         assert_eq!(g1.z(), Fq::one());
     }
-
 
     #[test]
     fn g2_from_compressed() {
@@ -694,18 +730,32 @@ mod tests {
             &hex("0a023aed31b5a9e486366ea9988b05dba469c6206e58361d9c065bbea7d928204a761efc6e4fa08ed227650134b52c7f7dd0463963e8a4bf21f4899fe5da7f984a")
         ).expect("Valid g2 point hex encoding");
 
-        assert_eq!(g2.x(),
-                   Fq2::new(
-                       Fq::from_str("5923585509243758863255447226263146374209884951848029582715967108651637186684").unwrap(),
-                       Fq::from_str("5336385337059958111259504403491065820971993066694750945459110579338490853570").unwrap(),
-                   )
+        assert_eq!(
+            g2.x(),
+            Fq2::new(
+                Fq::from_str(
+                    "5923585509243758863255447226263146374209884951848029582715967108651637186684"
+                )
+                .unwrap(),
+                Fq::from_str(
+                    "5336385337059958111259504403491065820971993066694750945459110579338490853570"
+                )
+                .unwrap(),
+            )
         );
 
-        assert_eq!(g2.y(),
-                   Fq2::new(
-                       Fq::from_str("10374495865873200088116930399159835104695426846400310764827677226300185211748").unwrap(),
-                       Fq::from_str("5256529835065685814318509161957442385362539991735248614869838648137856366932").unwrap(),
-                   )
+        assert_eq!(
+            g2.y(),
+            Fq2::new(
+                Fq::from_str(
+                    "10374495865873200088116930399159835104695426846400310764827677226300185211748"
+                )
+                .unwrap(),
+                Fq::from_str(
+                    "5256529835065685814318509161957442385362539991735248614869838648137856366932"
+                )
+                .unwrap(),
+            )
         );
 
         // 0b prefix is point reflection on the curve
@@ -713,18 +763,32 @@ mod tests {
             &hex("0b023aed31b5a9e486366ea9988b05dba469c6206e58361d9c065bbea7d928204a761efc6e4fa08ed227650134b52c7f7dd0463963e8a4bf21f4899fe5da7f984a")
         ).expect("Valid g2 point hex encoding");
 
-        assert_eq!(g2.x(),
-                   Fq2::new(
-                       Fq::from_str("5923585509243758863255447226263146374209884951848029582715967108651637186684").unwrap(),
-                       Fq::from_str("5336385337059958111259504403491065820971993066694750945459110579338490853570").unwrap(),
-                   )
+        assert_eq!(
+            g2.x(),
+            Fq2::new(
+                Fq::from_str(
+                    "5923585509243758863255447226263146374209884951848029582715967108651637186684"
+                )
+                .unwrap(),
+                Fq::from_str(
+                    "5336385337059958111259504403491065820971993066694750945459110579338490853570"
+                )
+                .unwrap(),
+            )
         );
 
-        assert_eq!(g2.y(),
-                   Fq2::new(
-                       Fq::from_str("10374495865873200088116930399159835104695426846400310764827677226300185211748").unwrap(),
-                       Fq::from_str("5256529835065685814318509161957442385362539991735248614869838648137856366932").unwrap(),
-                   )
+        assert_eq!(
+            g2.y(),
+            Fq2::new(
+                Fq::from_str(
+                    "10374495865873200088116930399159835104695426846400310764827677226300185211748"
+                )
+                .unwrap(),
+                Fq::from_str(
+                    "5256529835065685814318509161957442385362539991735248614869838648137856366932"
+                )
+                .unwrap(),
+            )
         );
 
         // valid point but invalid sign prefix

@@ -1,15 +1,12 @@
 use alloc::vec::Vec;
-use crypto_bigint::U256;
 use crunchy::unroll;
-
+use crypto_bigint::U256;
 
 /// U256/U512 errors
 #[derive(Debug)]
 pub enum Error {
     InvalidLength { expected: usize, actual: usize },
 }
-
-
 
 pub struct BitIterator<'a> {
     int: &'a U256,
@@ -25,12 +22,12 @@ impl<'a> Iterator for BitIterator<'a> {
 
     fn next(&mut self) -> Option<bool> {
         if self.n == 0 {
-                    None
-                } else {
-                    self.n -= 1;
-        
-                    u256_get_bit(self.int, self.n)
-                }
+            None
+        } else {
+            self.n -= 1;
+
+            u256_get_bit(self.int, self.n)
+        }
     }
 }
 
@@ -42,7 +39,7 @@ fn div2(inp: &mut U256) {
     a[1] >>= 1;
     a[0] >>= 1;
     a[0] |= tmp;
-    
+
     let res = to_word_vec(&a);
     *inp = U256::from_words(res);
 }
@@ -55,7 +52,7 @@ pub(crate) fn mul2(inp: &mut U256) {
     a[0] <<= 1;
     a[1] <<= 1;
     a[1] |= tmp;
-    
+
     let res = to_word_vec(&a);
     *inp = U256::from_words(res);
 }
@@ -85,15 +82,15 @@ pub(crate) fn adc(a: u128, b: u128, carry: &mut u128) -> u128 {
 fn add_nocarry(inp_a: &mut U256, b: &U256) {
     let mut a = from_word_vec(&inp_a.to_words());
     let b = from_word_vec(&b.to_words());
-    
+
     let mut carry = 0;
 
     for (a, b) in a.iter_mut().zip(b.iter()) {
         *a = adc(*a, *b, &mut carry);
     }
-    
+
     *inp_a = U256::from_words(to_word_vec(&a));
-    
+
     debug_assert!(0 == carry);
 }
 
@@ -101,7 +98,7 @@ fn add_nocarry(inp_a: &mut U256, b: &U256) {
 pub(crate) fn sub_noborrow(inp_a: &mut U256, b: &U256) {
     let mut a = from_word_vec(&inp_a.to_words());
     let b = from_word_vec(&b.to_words());
-    
+
     #[inline]
     fn sbb(a: u128, b: u128, borrow: &mut u128) -> u128 {
         let (a1, a0) = split_u128(a);
@@ -119,9 +116,9 @@ pub(crate) fn sub_noborrow(inp_a: &mut U256, b: &U256) {
     for (a, b) in a.iter_mut().zip(b.iter()) {
         *a = sbb(*a, *b, &mut borrow);
     }
-    
+
     *inp_a = U256::from_words(to_word_vec(&a));
-    
+
     debug_assert!(0 == borrow);
 }
 
@@ -258,21 +255,21 @@ pub(crate) fn from_word_vec(d: &[u64; 4]) -> [u128; 2] {
 #[inline]
 pub(crate) fn u256_get_bit(data: &U256, index: usize) -> Option<bool> {
     let p_data = from_word_vec(&data.to_words());
-    
+
     if index >= 256 {
-                None
-            } else {
-                let part = index / 128;
-                let bit = index - (128 * part);
-    
-                Some(p_data[part] & (1 << bit) > 0)
-            }
+        None
+    } else {
+        let part = index / 128;
+        let bit = index - (128 * part);
+
+        Some(p_data[part] & (1 << bit) > 0)
+    }
 }
 
 #[inline]
 pub(crate) fn u256_set_bit(data: &mut U256, n: usize, to: bool) -> bool {
     let mut p_data = from_word_vec(&data.to_words());
-    
+
     if n >= 256 {
         false
     } else {
@@ -284,26 +281,31 @@ pub(crate) fn u256_set_bit(data: &mut U256, n: usize, to: bool) -> bool {
             p_data[part] &= !(1 << bit);
         }
         *data = U256::from_words(to_word_vec(&p_data));
-        
+
         true
     }
 }
 
 pub fn mono_mul(oprand: &mut U256, other: &U256, modulo: &U256, inv: u128) {
     let mut p_oprand = from_word_vec(&oprand.to_words());
-    
-    mul_reduce(&mut p_oprand, &from_word_vec(&other.to_words()), &from_word_vec(&modulo.to_words()) , inv);
-    
+
+    mul_reduce(
+        &mut p_oprand,
+        &from_word_vec(&other.to_words()),
+        &from_word_vec(&modulo.to_words()),
+        inv,
+    );
+
     if *oprand >= *modulo {
         sub_noborrow_raw(&mut p_oprand, &from_word_vec(&modulo.to_words()));
     }
-    
+
     *oprand = U256::from_words(to_word_vec(&p_oprand));
 }
 
 pub(crate) fn u256_is_even(data: &U256) -> bool {
     let p_data = from_word_vec(&data.to_words());
-    
+
     p_data[0] & 1 == 0
 }
 

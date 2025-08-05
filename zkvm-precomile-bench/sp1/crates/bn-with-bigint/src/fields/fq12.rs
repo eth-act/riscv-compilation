@@ -1,8 +1,10 @@
+use crate::{
+    arith::u256_bits,
+    fields::{const_fq, FieldElement, Fq, Fq2, Fq6},
+};
 use core::ops::{Add, Mul, Neg, Sub};
 use crypto_bigint::U256;
 use rand::Rng;
-use crate::{arith::u256_bits, fields::{const_fq, FieldElement, Fq, Fq2, Fq6}};
-
 
 fn frobenius_coeffs_c1(power: usize) -> Fq2 {
     match power % 12 {
@@ -113,7 +115,8 @@ impl Fq12 {
     pub fn frobenius_map(&self, power: usize) -> Self {
         Fq12 {
             c0: self.c0.frobenius_map(power),
-            c1: self.c1
+            c1: self
+                .c1
                 .frobenius_map(power)
                 .scale(frobenius_coeffs_c1(power)),
         }
@@ -297,7 +300,8 @@ impl FieldElement for Fq12 {
         let ab = self.c0 * self.c1;
 
         Fq12 {
-            c0: (self.c1.mul_by_nonresidue() + self.c0) * (self.c0 + self.c1) - ab
+            c0: (self.c1.mul_by_nonresidue() + self.c0) * (self.c0 + self.c1)
+                - ab
                 - ab.mul_by_nonresidue(),
             c1: ab + ab,
         }
