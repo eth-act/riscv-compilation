@@ -18,20 +18,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bigint-patched"
-version = "0.1.0"
-dependencies = [
- "bench-utils",
-]
-
-[[package]]
-name = "bn-patched"
-version = "0.1.0"
-dependencies = [
- "bench-utils",
-]
-
-[[package]]
 name = "bn-with-bigint-operational"
 version = "0.6.0"
 dependencies = [

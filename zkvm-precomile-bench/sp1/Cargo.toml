@@ -1,2 +1,7 @@
 [workspace]
-members = ["bin/bigint-patched","bin/bn-patched","crates/bench-utils", "crates/bn-with-bigint-total", "crates/bn-with-bigint-operational"]
+members = ["crates/bench-utils", "crates/bn-with-bigint-total", "crates/bn-with-bigint-operational"]
+
+exclude = [
+    "bin/bn-pairing",
+    "bin/bigint-pairing",
+]
