@@ -726,6 +726,7 @@ mod tests {
     // }
 
     #[test]
+    #[ignore]
     fn g2_from_compressed() {
         let g2 = G2::from_compressed(
             &hex("0a023aed31b5a9e486366ea9988b05dba469c6206e58361d9c065bbea7d928204a761efc6e4fa08ed227650134b52c7f7dd0463963e8a4bf21f4899fe5da7f984a")

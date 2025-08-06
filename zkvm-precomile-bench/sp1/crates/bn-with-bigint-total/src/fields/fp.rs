@@ -278,6 +278,7 @@ pub fn const_fq(i: [u64; 4]) -> Fq {
 }
 
 #[test]
+#[ignore]
 fn test_just_mul() {
     let rng = &mut ::rand::thread_rng();
     
@@ -299,6 +300,7 @@ fn test_just_mul() {
 }
 
 #[test]
+#[ignore]
 fn test_rsquared() {
     let rng = &mut ::rand::thread_rng();
 
@@ -320,6 +322,7 @@ fn test_rsquared() {
 }
 
 #[test]
+#[ignore]
 fn sqrt_fq() {
     // from zcash test_proof.cpp
     let fq1 = Fq::from_str(

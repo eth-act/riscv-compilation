@@ -1,4 +1,4 @@
-use bn_with_bigint::{Fr, G1, G2, Group, pairing};
+use bn_with_bigint_total::{Fr, G1, G2, Group, pairing};
 
 use crate::init_rands_biginit_batched;
 

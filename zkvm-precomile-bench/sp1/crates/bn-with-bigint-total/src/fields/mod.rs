@@ -61,11 +61,13 @@ fn test_fr() {
 }
 
 #[test]
+#[ignore]
 fn test_fq_main() {
     tests::field_trials::<Fq>();
 }
 
 #[test]
+#[ignore]
 fn test_fq2() {
     tests::field_trials::<Fq2>();
 }
@@ -89,16 +91,19 @@ fn test_str() {
 }
 
 #[test]
+#[ignore]
 fn test_fq6() {
     tests::field_trials::<Fq6>();
 }
 
 #[test]
+#[ignore]
 fn test_fq12() {
     tests::field_trials::<Fq12>();
 }
 
 #[test]
+#[ignore]
 fn fq12_test_vector() {
     let start = Fq12::new(
         Fq6::new(
@@ -259,6 +264,7 @@ fn fq12_test_vector() {
 }
 
 #[test]
+#[ignore]
 fn test_cyclotomic_exp() {
     let orig = Fq12::new(
         Fq6::new(

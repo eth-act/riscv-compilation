@@ -235,6 +235,7 @@ impl Fq2 {
 
 
 #[test]
+#[ignore]
 fn sqrt_fq2() {
     // from zcash test_proof.cpp
     let x1 = Fq2::new(

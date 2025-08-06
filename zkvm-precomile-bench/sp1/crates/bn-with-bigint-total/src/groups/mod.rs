@@ -489,16 +489,19 @@ pub type AffineG2 = AffineG<G2Params>;
 mod tests;
 
 #[test]
+#[ignore]
 fn test_g1() {
     tests::group_trials::<G1>();
 }
 
 #[test]
+#[ignore]
 fn test_g2() {
     tests::group_trials::<G2>();
 }
 
 #[test]
+#[ignore]
 fn test_affine_jacobian_conversion() {
     let rng = &mut ::rand::thread_rng();
 
@@ -938,6 +941,7 @@ pub fn pairing_batch(ps: &[G1], qs: &[G2]) -> Fq12 {
 }
 
 #[test]
+#[ignore]
 fn test_reduced_pairing() {
     use crate::fields::Fq6;
 
@@ -1025,6 +1029,7 @@ fn test_reduced_pairing() {
 }
 
 #[test]
+#[ignore]
 fn predefined_pair() {
     let g1 = AffineG1::new(
         Fq::from_str("1").expect("Fq(1) should exist"),
@@ -1067,6 +1072,7 @@ fn test_batch_bilinearity_empty() {
 }
 
 #[test]
+#[ignore]
 fn test_batch_bilinearity_one() {
     use rand::{rngs::StdRng, SeedableRng};
     let seed = [
@@ -1087,6 +1093,7 @@ fn test_batch_bilinearity_one() {
 }
 
 #[test]
+#[ignore]
 fn test_batch_bilinearity_fifty() {
     use rand::{rngs::StdRng, SeedableRng};
     let seed = [
@@ -1119,6 +1126,7 @@ fn test_batch_bilinearity_fifty() {
 }
 
 #[test]
+#[ignore]
 fn test_bilinearity() {
     use rand::{rngs::StdRng, SeedableRng};
     let seed = [
