@@ -1,5 +1,5 @@
 use substrate_bn::Fr;
-use bn_with_bigint_total::Fr as Frr;
+use bn_with_bigint_operational::Fr as Frr;
 
 pub fn init_rands_bn_batched() -> Vec<Fr> {
     [

@@ -12,7 +12,7 @@ checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 name = "bench-utils"
 version = "0.1.0"
 dependencies = [
- "bn-with-bigint-total",
+ "bn-with-bigint-operational",
  "rand",
  "substrate-bn",
 ]
@@ -76,8 +76,7 @@ checksum = "460fbee9c2c2f33933d720630a6a0bac33ba7053db5344fac858d4b8952d77d5"
 [[package]]
 name = "crypto-bigint"
 version = "0.5.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0dc92fb57ca44df6db8059111ab3af99a63d5d0f8375d9972e319a379c6bab76"
+source = "git+https://github.com/developeruche/crypto-bigint.git?branch=riscv-compilations-v2#3509908d19e92bb328c5a609591160593a861884"
 dependencies = [
  "rand_core",
  "subtle",
