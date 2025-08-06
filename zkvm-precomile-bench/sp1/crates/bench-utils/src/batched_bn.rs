@@ -2,7 +2,7 @@ use substrate_bn::{Fr, G1, G2, Group, pairing};
 use crate::init_rands_bn_batched;
 
 
-pub fn perform_100_bn254_pairings_batched_bn() {
+pub fn perform_20_bn254_pairings_bn() {
     let rands = init_rands_bn_batched();
     
     

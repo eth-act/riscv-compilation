@@ -7,4 +7,4 @@ edition = "2021"
 alloy-sol-types = { workspace = true }
 sp1-zkvm = "5.0.8"
 fibonacci-lib = { path = "../lib" }
-bn-with-bigint-operational = {path = "../../../crates/bn-with-bigint-operational"}
+bench-utils = {path = "../../../crates/bench-utils"}

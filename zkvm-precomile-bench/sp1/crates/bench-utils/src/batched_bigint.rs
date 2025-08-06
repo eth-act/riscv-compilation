@@ -3,7 +3,7 @@ use bn_with_bigint_operational::{Fr, G1, G2, Group, pairing};
 use crate::init_rands_biginit_batched;
 
 
-pub fn perform_100_bn254_pairings_batched_bigint() {
+pub fn perform_20_bn254_pairings_bigint() {
     let rands = init_rands_biginit_batched();
     
     
