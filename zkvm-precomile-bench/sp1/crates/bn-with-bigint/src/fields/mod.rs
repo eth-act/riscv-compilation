@@ -42,6 +42,7 @@ pub trait FieldElement:
 
         for i in u256_bits(&by.into()) {
             res = res.squared();
+            
             if i {
                 res = *self * res;
             }
@@ -60,7 +61,7 @@ fn test_fr() {
 }
 
 #[test]
-fn test_fq() {
+fn test_fq_main() {
     tests::field_trials::<Fq>();
 }
 

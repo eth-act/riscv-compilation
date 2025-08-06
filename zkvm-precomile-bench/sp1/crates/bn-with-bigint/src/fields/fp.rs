@@ -1,4 +1,4 @@
-use crate::arith::{from_word_vec, mono_invert, mono_mul, to_word_vec, u256_add_mod, u256_neg_mod, u256_set_bit, u256_sub_mod, vec4_int_to_u256};
+use crate::arith::{from_word_vec, mono_invert, mono_mul, to_word_vec, u256_add_mod, u256_get_bit, u256_neg_mod, u256_set_bit, u256_sub_mod, vec4_int_to_u256};
 use crate::fields::u512::U512;
 use crate::fields::FieldElement;
 use alloc::vec::Vec;
@@ -281,17 +281,21 @@ pub fn const_fq(i: [u64; 4]) -> Fq {
 fn test_just_mul() {
     let rng = &mut ::rand::thread_rng();
     
-    let a = Fr::random(rng);
-    let b = Fr::random(rng);
+    // let a = Fr::random(rng);
+    // let b = Fr::random(rng);
     
-    // let a = Fr::new(U256::from_words(to_word_vec(&[231790918448216886216790382888498461438, 1102100366002730742298132915978564164]))).unwrap();
-    // let b = Fr::new(U256::from_words(to_word_vec(&[268798920562604851899424664552067855916, 19659637233304282737006916657082349652]))).unwrap();
+    let a = Fr::new(U256::from_words(to_word_vec(&[231790918448216886216790382888498461438, 1102100366002730742298132915978564164]))).unwrap();
+    let b = Fr::new(U256::from_words(to_word_vec(&[268798920562604851899424664552067855916, 19659637233304282737006916657082349652]))).unwrap();
     
-    let c = a * b;
+    let mut c = a * b;
     let s = a.squared();
     let t = c + s;
     let u = t - c - s;
     let neg_u = - a;
+    let tr = c.set_bit(23, true);
+    let trr = u256_get_bit(&c.0, 54).unwrap();
+    
+    panic!("tr: {:?}", trr);
 }
 
 #[test]

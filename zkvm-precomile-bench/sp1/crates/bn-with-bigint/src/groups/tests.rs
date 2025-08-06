@@ -88,7 +88,10 @@ pub fn group_trials<G: GroupElement>() {
     assert_eq!(G::one() + G::one(), G::one() * Fr::from_str("2").unwrap());
     assert!(G::zero().double().is_zero());
 
-    assert!((G::one() * (-Fr::one()) + G::one()).is_zero());
+    let neg_t = (-Fr::one());
+    let ty = G::one() * neg_t;
+    let tz = ty + G::one();
+    assert!(tz.is_zero());
 
     use rand::{rngs::StdRng, SeedableRng};
     let seed = [
