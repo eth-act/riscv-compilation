@@ -87,3 +87,14 @@ command:
 ```sh
 SP1_PROVER=network NETWORK_PRIVATE_KEY=... cargo run --release --bin evm
 ```
+
+
+
+
+
+
+2025-08-06T14:58:37.465315Z  INFO execute: └╴16,792,169,504 cycles
+2025-08-06T14:58:37.465443Z  WARN execute: Not all input bytes were read.
+2025-08-06T14:58:38.767627Z  INFO execute: gas: 16110879000
+2025-08-06T14:58:38.770600Z  INFO execute: close time.busy=293s time.idle=2.13µs
+Program executed successfully.

@@ -1,4 +1,4 @@
-use substrate_bn::{Fr, G1, G2, Group, pairing};
+use bn_with_bigint_operational::{Fr, G1, G2, Group, pairing};
 
 
 pub fn init_rands_bn_batched() -> Vec<Fr> {
