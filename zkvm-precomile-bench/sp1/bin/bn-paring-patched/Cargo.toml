@@ -1,0 +1,11 @@
+[workspace]
+members = ["lib", "program", "script"]
+resolver = "2"
+
+[workspace.dependencies]
+alloy-sol-types = "1.0"
+
+
+[patch."https://github.com/paritytech/bn"]
+# Precompile patches
+substrate-bn = { git = "https://github.com/sp1-patches/bn", tag = "patch-0.6.0-sp1-5.0.0" }

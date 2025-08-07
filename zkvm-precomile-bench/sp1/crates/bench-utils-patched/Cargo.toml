@@ -1,0 +1,9 @@
+[package]
+name = "bench-utils-patched"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+substrate-bn = {git = "https://github.com/paritytech/bn", branch = "master"}
+rand = { version = "0.8.3", features = ["std_rng"] }
+bn-with-bigint-operational = {path = "../bn-with-bigint-operational"}
