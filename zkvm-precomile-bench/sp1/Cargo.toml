@@ -2,11 +2,12 @@
 members = [
 "crates/bench-utils", 
 "crates/bn-with-bigint-total", 
-"crates/bn-with-bigint-operational", 
-"crates/bench-utils-patched"]
+"crates/bn-with-bigint-operational",
+]
 
 exclude = [
     "bin/bn-pairing",
     "bin/bn-pairing-patched",
     "bin/bigint-pairing",
+    "bin/bigint-pairing-patched",
 ]
