@@ -1,0 +1,16 @@
+[workspace]
+members = [
+    "lib",
+    "program",
+    "script",
+]
+resolver = "2"
+
+[workspace.dependencies]
+alloy-sol-types = "1.0"
+
+
+
+[patch."https://github.com/developeruche/crypto-bigint.git"]
+# Precompile patches
+crypto-bigint = { git = "https://github.com/CoinDao/RustCrypto-bigint", branch = "riscv-compilation"}
