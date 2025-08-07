@@ -1,0 +1,60 @@
+2025-08-07T01:12:10.468183Z  WARN SP1_PROVER environment variable not set, defaulting to 'cpu'
+n: 20
+2025-08-07T01:12:15.066205Z  INFO prove_core: clk = 0 pc = 0x201590
+2025-08-07T01:12:15.066430Z  INFO prove_core: ┌╴compute
+2025-08-07T01:12:15.103552Z  INFO prove_core: clk = 0 pc = 0x201590
+2025-08-07T01:12:15.103608Z  INFO prove_core: ┌╴compute
+2025-08-07T01:12:16.523297Z  INFO prove_core: clk = 10000000 pc = 0x21a444
+2025-08-07T01:12:18.216243Z  INFO prove_core: clk = 20000000 pc = 0x203b24
+2025-08-07T01:12:19.534123Z  INFO prove_core: clk = 30000000 pc = 0x201194
+2025-08-07T01:12:19.565909Z  INFO prove_core:generate main traces: close time.busy=3.55s time.idle=2.00µs index=0
+2025-08-07T01:12:21.848407Z  INFO prove_core: clk = 40000000 pc = 0x2192f0
+2025-08-07T01:12:21.848715Z  INFO prove_core: └╴40,009,179 cycles
+2025-08-07T01:12:21.848819Z  WARN prove_core: Not all input bytes were read.
+2025-08-07T01:12:23.685823Z  INFO prove_core:generate main traces: close time.busy=3.35s time.idle=2.13µs index=1
+2025-08-07T01:13:13.842473Z  INFO prove_core:generate main traces: close time.busy=2.51s time.idle=2.21µs index=2
+2025-08-07T01:14:43.007266Z  INFO prove_core:generate main traces: close time.busy=2.17s time.idle=2.42µs index=3
+2025-08-07T01:15:08.657906Z  INFO prove_core:generate main traces: close time.busy=3.37s time.idle=2.13µs index=4
+2025-08-07T01:16:33.779512Z  INFO prove_core:generate main traces: close time.busy=1.20s time.idle=2.17µs index=5
+2025-08-07T01:17:01.885407Z  INFO prove_core:generate main traces: close time.busy=3.31s time.idle=1.12µs index=6
+2025-08-07T01:18:26.763384Z  INFO prove_core:generate main traces: close time.busy=4.70s time.idle=2.29µs index=7
+2025-08-07T01:19:22.827220Z  INFO prove_core:generate main traces: close time.busy=769ms time.idle=1.75µs index=8
+2025-08-07T01:19:31.610424Z  INFO prove_core: clk = 10000000 pc = 0x21a444
+2025-08-07T01:19:44.194313Z  INFO prove_core:generate main traces: close time.busy=6.58s time.idle=5.46µs index=9
+2025-08-07T01:21:27.534683Z  INFO prove_core:generate main traces: close time.busy=1.67s time.idle=1.96µs index=10
+2025-08-07T01:22:02.992306Z  INFO prove_core:generate main traces: close time.busy=5.75s time.idle=2.58µs index=11
+2025-08-07T01:23:40.821851Z  INFO prove_core:generate main traces: close time.busy=1.14s time.idle=3.00µs index=12
+2025-08-07T01:23:54.388895Z  INFO prove_core:generate main traces: close time.busy=4.27s time.idle=1.71µs index=13
+2025-08-07T01:25:30.057968Z  INFO prove_core:generate main traces: close time.busy=3.30s time.idle=832ns index=14
+2025-08-07T01:26:41.666038Z  INFO prove_core:generate main traces: close time.busy=2.38s time.idle=3.08µs index=15
+2025-08-07T01:27:12.170459Z  INFO prove_core:generate main traces: close time.busy=1.66s time.idle=1.58µs index=16
+2025-08-07T01:28:04.633785Z  INFO prove_core:generate main traces: close time.busy=4.90s time.idle=1.88µs index=17
+2025-08-07T01:29:40.077363Z  INFO prove_core:generate main traces: close time.busy=5.19s time.idle=1.42µs index=18
+2025-08-07T01:31:04.335536Z  INFO prove_core: clk = 20000000 pc = 0x203b24
+2025-08-07T01:31:07.051300Z  INFO prove_core:generate main traces: close time.busy=2.16s time.idle=1.67µs index=19
+2025-08-07T01:31:43.011468Z  INFO prove_core:generate main traces: close time.busy=1.21s time.idle=1.46µs index=20
+2025-08-07T01:32:37.313780Z  INFO prove_core:generate main traces: close time.busy=4.74s time.idle=1.58µs index=21
+2025-08-07T01:34:20.882460Z  INFO prove_core:generate main traces: close time.busy=1.91s time.idle=1.92µs index=22
+2025-08-07T01:34:48.516175Z  INFO prove_core:generate main traces: close time.busy=1.26s time.idle=1.96µs index=23
+2025-08-07T01:35:40.718139Z  INFO prove_core:generate main traces: close time.busy=2.49s time.idle=1.42µs index=24
+2025-08-07T01:37:09.976961Z  INFO prove_core:generate main traces: close time.busy=2.28s time.idle=1.54µs index=25
+2025-08-07T01:37:38.744258Z  INFO prove_core:generate main traces: close time.busy=4.54s time.idle=2.33µs index=26
+2025-08-07T01:39:12.346721Z  INFO prove_core:generate main traces: close time.busy=4.55s time.idle=1.71µs index=27
+2025-08-07T01:40:14.519632Z  INFO prove_core: clk = 30000000 pc = 0x201194
+2025-08-07T01:40:16.734914Z  INFO prove_core:generate main traces: close time.busy=1.73s time.idle=2.00µs index=28
+2025-08-07T01:41:07.322313Z  INFO prove_core:generate main traces: close time.busy=5.50s time.idle=1.71µs index=29
+2025-08-07T01:42:58.621791Z  INFO prove_core:generate main traces: close time.busy=2.20s time.idle=1.00µs index=30
+2025-08-07T01:43:28.513586Z  INFO prove_core:generate main traces: close time.busy=2.86s time.idle=2.71µs index=31
+2025-08-07T01:44:59.381660Z  INFO prove_core:generate main traces: close time.busy=3.96s time.idle=1.12µs index=32
+2025-08-07T01:45:34.356696Z  INFO prove_core:generate main traces: close time.busy=3.20s time.idle=2.25µs index=33
+2025-08-07T01:47:08.010131Z  INFO prove_core:generate main traces: close time.busy=2.84s time.idle=1.75µs index=34
+2025-08-07T01:48:10.979823Z  INFO prove_core:generate main traces: close time.busy=1.43s time.idle=2.12µs index=35
+2025-08-07T01:48:50.958885Z  INFO prove_core:generate main traces: close time.busy=4.01s time.idle=1.92µs index=36
+2025-08-07T01:50:21.928537Z  INFO prove_core:generate main traces: close time.busy=7.35s time.idle=1.79µs index=37
+2025-08-07T01:51:28.907227Z  INFO prove_core: clk = 40000000 pc = 0x2192f0
+2025-08-07T01:51:28.908266Z  WARN prove_core: Not all input bytes were read.
+2025-08-07T01:51:34.107548Z  INFO prove_core:generate main traces: close time.busy=3.80s time.idle=1.88µs index=38
+2025-08-07T01:53:06.365247Z  INFO prove_core: close time.busy=2447s time.idle=4.52s
+Successfully generated proof!
+2025-08-07T01:53:27.960198Z  INFO verify: close time.busy=20.9s time.idle=1.46µs
+Successfully verified proof!
