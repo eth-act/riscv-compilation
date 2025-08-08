@@ -42,7 +42,7 @@ pub trait FieldElement:
 
         for i in u256_bits(&by.into()) {
             res = res.squared();
-            
+
             if i {
                 res = *self * res;
             }

@@ -7,3 +7,6 @@ edition = "2024"
 substrate-bn = {git = "https://github.com/paritytech/bn", branch = "master"}
 rand = { version = "0.8.3", features = ["std_rng"] }
 bn-with-bigint-operational = {path = "../bn-with-bigint-operational"}
+ark-ec = "0.5.0"
+ark-ff = "0.5.0"
+ark-bn254 = "0.5.0"
