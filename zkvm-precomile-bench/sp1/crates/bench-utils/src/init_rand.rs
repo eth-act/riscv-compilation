@@ -1,5 +1,5 @@
-use substrate_bn::Fr;
 use bn_with_bigint_operational::Fr as Frr;
+use substrate_bn::Fr;
 
 pub fn init_rands_bn_batched() -> Vec<Fr> {
     [
@@ -23,7 +23,10 @@ pub fn init_rands_bn_batched() -> Vec<Fr> {
         // "20130764522105187483042874942630198271279984675059418039220394021179389427897",
         // "17686467089738770517858965802309282413601037956406200793587289600375901384673",
         // "36240505843574990836206383680757024241613482594798329818369039630134605432889",
-        ].iter().map(|x| Fr::from_str(x).unwrap()).collect()
+    ]
+    .iter()
+    .map(|x| Fr::from_str(x).unwrap())
+    .collect()
 }
 
 pub fn init_rands_biginit_batched() -> Vec<Frr> {
@@ -48,5 +51,8 @@ pub fn init_rands_biginit_batched() -> Vec<Frr> {
         // "20130764522105187483042874942630198271279984675059418039220394021179389427897",
         // "17686467089738770517858965802309282413601037956406200793587289600375901384673",
         // "36240505843574990836206383680757024241613482594798329818369039630134605432889",
-        ].iter().map(|x| Frr::from_str(x).unwrap()).collect()
+    ]
+    .iter()
+    .map(|x| Frr::from_str(x).unwrap())
+    .collect()
 }

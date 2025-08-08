@@ -1,8 +1,7 @@
+use crate::fields::{const_fq, FieldElement, Fq, U512};
 use core::ops::{Add, Mul, Neg, Sub};
 use crypto_bigint::U256;
 use rand::Rng;
-use crate::fields::{const_fq, FieldElement, Fq, U512};
-
 
 #[inline]
 fn fq_non_residue() -> Fq {
@@ -111,7 +110,8 @@ impl FieldElement for Fq2 {
         let ab = self.c0 * self.c1;
 
         Fq2 {
-            c0: (self.c1 * fq_non_residue() + self.c0) * (self.c0 + self.c1) - ab
+            c0: (self.c1 * fq_non_residue() + self.c0) * (self.c0 + self.c1)
+                - ab
                 - ab * fq_non_residue(),
             c1: ab + ab,
         }
@@ -209,9 +209,8 @@ impl Fq2 {
     pub fn sqrt(&self) -> Option<Self> {
         let a1 = self.pow::<U256>((*FQ_MINUS3_DIV4).into());
         let a1a = a1 * *self;
-        let alpha = a1 * a1a; 
+        let alpha = a1 * a1a;
         let a0 = alpha.pow(*FQ) * alpha;
-        
 
         if a0 == Fq2::one().neg() {
             return None;
@@ -233,19 +232,30 @@ impl Fq2 {
     }
 }
 
-
 #[test]
 #[ignore]
 fn sqrt_fq2() {
     // from zcash test_proof.cpp
     let x1 = Fq2::new(
-        Fq::from_str("12844195307879678418043983815760255909500142247603239203345049921980497041944").unwrap(),
-        Fq::from_str("7476417578426924565731404322659619974551724117137577781074613937423560117731").unwrap(),
+        Fq::from_str(
+            "12844195307879678418043983815760255909500142247603239203345049921980497041944",
+        )
+        .unwrap(),
+        Fq::from_str(
+            "7476417578426924565731404322659619974551724117137577781074613937423560117731",
+        )
+        .unwrap(),
     );
 
     let x2 = Fq2::new(
-        Fq::from_str("3345897230485723946872934576923485762803457692345760237495682347502347589474").unwrap(),
-        Fq::from_str("1234912378405347958234756902345768290345762348957605678245967234857634857676").unwrap(),
+        Fq::from_str(
+            "3345897230485723946872934576923485762803457692345760237495682347502347589474",
+        )
+        .unwrap(),
+        Fq::from_str(
+            "1234912378405347958234756902345768290345762348957605678245967234857634857676",
+        )
+        .unwrap(),
     );
 
     assert_eq!(x2.sqrt().unwrap(), x1);

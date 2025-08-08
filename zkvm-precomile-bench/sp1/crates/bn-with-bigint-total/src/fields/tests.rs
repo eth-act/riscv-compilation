@@ -100,7 +100,12 @@ fn rand_element_multiplication<F: FieldElement, R: Rng>(rng: &mut R) {
         let b = F::random(rng);
         let c = F::random(rng);
 
-        assert_eq!((a * b) * c, a * (b * c), "If this fails, the field is not associative under multiplication. {}", i);
+        assert_eq!(
+            (a * b) * c,
+            a * (b * c),
+            "If this fails, the field is not associative under multiplication. {}",
+            i
+        );
     }
 }
 

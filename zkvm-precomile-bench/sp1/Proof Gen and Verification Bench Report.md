@@ -1,77 +1,85 @@
-## **Technical Report: Proof Generation & Verification Benchmark of `bn256` Implementations in the SP1 zkVM**
+### **Technical Report: End-to-End ZK Proof Benchmark of bn256 Implementations in the SP1 zkVM**
 
-This report extends the previous benchmark analysis to cover the entire lifecycle of Zero-Knowledge proof generation and verification. It evaluates the performance of two `U256` integer implementations for `bn256` elliptic curve operations within the SP1 zkVM, measuring the impact of specialized precompiles on the resource-intensive proving and verification stages.
+This report extends the previous benchmark analyses to cover the entire Zero-Knowledge proof lifecycle, from execution to verification. It evaluates the performance of three distinct `bn256` libraries within the SP1 zkVM, measuring the impact of cryptographic library choice and specialized precompiles on the resource-intensive proving and verification stages.
 
-**Date:** August 7, 2025
+**Date:** August 8, 2025
 **Platform:** SP1 zkVM (CPU Prover)
 **Hardware:** Apple MacBook Pro (M3 Max)
 
 
+
 ### **Objective**
 
-The primary goal is to benchmark the end-to-end performance difference between the standard `substrate_bn` crate and a modified version using `crypto-bigint`. This analysis moves beyond simple execution cycle counts to measure the real-world time required for:
-1.  **Proof Generation:** The computationally expensive process of creating a cryptographic proof of the guest program's execution.
-2.  **Verification:** The process of validating the generated proof.
+The goal is to benchmark the end-to-end performance of ZK applications built with different underlying cryptographic libraries. This analysis moves beyond execution cycle counts to measure the real-world time required for:
+* **Proof Generation:** The computationally expensive process of creating a cryptographic proof of the guest program's execution.
+* **Verification:** The process of validating the generated proof.
 
-This provides a comprehensive view of how library choice and precompile optimizations affect the practical usability of ZK programs.
-
+This provides a comprehensive view of how library optimization and zkVM precompiles affect the practical viability and developer experience of building with Zero-Knowledge proofs.
 
 
 ### **Methodology**
 
-The experiment utilized the same tripartite Diffie-Hellman key exchange guest program as the previous benchmark to ensure a consistent computational workload. The SP1 toolchain was used to generate a proof for the execution of each of the four guest programs and then verify that proof.
+The experiment used the same tripartite Diffie-Hellman key exchange guest program as the previous benchmarks to ensure a consistent computational workload. The SP1 toolchain was used to execute each guest program, generate a proof of that execution, and subsequently verify the proof.
 
 #### **Experimental Configurations**
 
-The four configurations remained identical to the initial report:
-1.  **`bn-pairing`**: Standard `substrate_bn` crate, no precompiles.
-2.  **`bigint-pairing`**: `substrate_bn` modified to use `crypto-bigint`, no precompiles.
-3.  **`bn-pairing-patched`**: `substrate_bn` with the specialized `bn` precompile enabled.
-4.  **`bigint-pairing-patched`**: `crypto-bigint` version with the generic `bigint` precompile enabled.
+The five configurations from the updated execution benchmark were used:
+1.  **bn-pairing:** Standard `substrate_bn` crate, no precompiles.
+2.  **bigint-pairing:** `substrate_bn` modified to use `crypto-bigint`, no precompiles.
+3.  **ark-pairing:** Uses the `ark_bn254` crate from the `arkworks` ecosystem, no precompiles.
+4.  **bn-pairing-patched:** `substrate_bn` with the specialized `bn` precompile enabled.
+5.  **bigint-pairing-patched:** `crypto-bigint` version with the generic `bigint` precompile enabled.
 
 
 
 ### **Results**
 
-The total time taken for proof generation and verification for each configuration was recorded. The results, derived directly from the prover and verifier logs, are summarized below.
+The total time for proof generation and verification was recorded for each configuration. The results, derived from the prover and verifier logs, are summarized below. **Shorter times indicate better performance.**
 
 | Configuration | Base Crate | Precompile Enabled | Cycle Count | Proof Generation Time | Verification Time | Total Time |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `bn-pairing` | `substrate_bn` | No | 1,105,498,339 | ~4 hr 57 min | ~1 min 52 sec | **~4 hr 59 min** |
-| `bigint-pairing` | `crypto-bigint` | No | 1,523,558,068 | ~4 hr 50 min | ~2 min 29 sec | **~4 hr 52 min** |
-| `bigint-pairing-patched` | `crypto-bigint` | Yes (`bigint`) | 518,877,400 | ~3 hr 10 min | ~1 min 18 sec | **~3 hr 11 min** |
-| **`bn-pairing-patched`** | **`substrate_bn`** | **Yes (`bn`)** | **40,014,404** | **~41 min 18 sec** | **~21 sec** | **~41 min 39 sec** |
-
-
+| `bigint-pairing` | `crypto-bigint` | No | 1,523,558,068 | ~4 hr 50 min | ~2 min 29 sec | ~4 hr 52 min |
+| `bn-pairing` | `substrate_bn` | No | 1,105,498,339 | ~4 hr 56 min | ~1 min 52 sec | ~4 hr 58 min |
+| `bigint-pairing-patched` | `crypto-bigint` | Yes (`bigint`) | 518,877,400 | ~3 hr 16 min | ~1 min 19 sec | ~3 hr 17 min |
+| `ark-pairing` | `ark_bn254` | **No** | **428,207,591** | **~1 hr 17 min** | **~44 sec** | **~1 hr 18 min** |
+| `bn-pairing-patched` | `substrate_bn` | Yes (`bn`) | **40,014,404** | **~40 min 47 sec** | **~21 sec** | **~41 min 8 sec** 🏆 |
 
 
 ### **Analysis & Discussion**
 
-This end-to-end analysis confirms and amplifies the conclusions from the execution benchmark, revealing the profound impact of precompiles on prover performance.
+This end-to-end analysis confirms and amplifies the conclusions from the execution benchmarks, revealing the profound impact of both library choice and precompiles on prover performance.
 
-#### **Without Precompiles: A Heavy Burden**
+#### **Without Precompiles: Prohibitively Expensive**
+Both `bn-pairing` and `bigint-pairing` required an extremely long time to prove, taking nearly **5 hours** each. These times are prohibitively long for almost any practical application or development cycle. Interestingly, `bigint-pairing`, despite having ~38% more execution cycles, proved slightly faster, suggesting that the raw instruction count is not the only factor influencing prover performance; the structure of the execution trace also plays a role.
 
-Both non-patched guest programs required an extremely long time to prove. The `bn-pairing` program took nearly **5 hours**, while the `bigint-pairing` program, despite having a higher cycle count, completed slightly faster at around **4 hours and 52 minutes**. This minor discrepancy suggests that cycle count alone is not a perfect predictor of proving time and that the structure of the execution trace can influence the prover's performance. Regardless, both times are prohibitively long for most practical applications.
+#### **The Impact of Optimizations: A Tale of Two Strategies**
+The introduction of `arkworks` and SP1 precompiles showcases two powerful but distinct optimization strategies.
 
-#### **With Precompiles: From Impractical to Feasible**
+* **"Fat" `bn` Precompile (The Winner 🏆):** The `bn-pairing-patched` configuration delivered a transformative result. It reduced the total time from nearly 5 hours to just **~41 minutes**. This represents a staggering **~7.2x performance improvement** over its non-precompiled version. This is the gold standard, demonstrating that a specialized, high-level precompile that accelerates the entire cryptographic protocol is the ultimate performance unlock.
 
-The introduction of precompiles drastically reduced proving times:
+* **Optimized Library (`arkworks`) 🤯:** The `ark-pairing` result is the most significant new finding. With **no precompiles**, it generated a proof in just **~1 hour and 17 minutes**. This is over **3.8x faster** than the other non-precompiled libraries. This proves that a well-engineered, algorithmically-optimized cryptographic library can drastically reduce the proving burden on its own.
 
-* **`bigint` Precompile Impact**: Enabling the generic `bigint` precompile (`bigint-pairing-patched`) cut the total time down to **3 hours and 11 minutes**. While this is a significant **1.5x improvement**, the proving process remains lengthy.
+#### **Key Insight: Optimized Library vs. Generic Precompile**
 
-* **`bn` Precompile Impact**: The specialized `bn` precompile (`bn-pairing-patched`) delivered a transformative result. It reduced the total time from nearly 5 hours to just **under 42 minutes**. This represents a staggering **~7x performance improvement** over the non-precompiled version and a **~4.6x improvement** over the version with only the generic `bigint` precompile.
+The most crucial comparison is between `ark-pairing` and `bigint-pairing-patched`.
 
-#### **Verification Time**
+* The `ark-pairing` program (**no precompile**) was approximately **2.7x faster to prove** than `bigint-pairing-patched` (**with a generic `bigint` precompile**).
 
-Verification times followed a similar, though less dramatic, pattern. The `bn-pairing-patched` proof, generated from a much smaller and more efficient execution trace, was the fastest to verify at just **21 seconds**. The other proofs took between one and two-and-a-half minutes to verify, with the time generally correlating with the complexity and size of the original execution trace.
+
+
+This result is unequivocal: a superior, general-purpose library is far more valuable than a less-optimized library augmented with only low-level, generic precompiles. Accelerating just the basic integer math is not enough; the high-level optimizations within the `arkworks` library had a much larger impact on reducing the overall complexity of the execution trace for the prover.
 
 
 
 ### **Conclusion**
 
-While the initial benchmark demonstrated the execution efficiency of precompiles, this analysis proves their absolute necessity for the entire ZK lifecycle. The results unequivocally show that for complex cryptographic workloads like `bn256` pairings, **failing to use a specialized, high-level precompile renders the proving process practically infeasible on consumer hardware.**
+This end-to-end analysis proves that both specialized precompiles and highly-optimized libraries are essential for the practical application of Zero-Knowledge proofs.
 
-The SP1 `bn` precompile reduces proof generation time from a multi-hour commitment to under an hour, crossing a critical threshold for developer productivity and application viability. For any project leveraging `bn256` operations in the SP1 zkVM, the adoption of the `sp1-patches/bn` precompile is the most critical optimization available and should be considered a mandatory step in development.
+1.  **Specialized Precompiles Are Mandatory for Peak Performance:** For complex cryptographic workloads like `bn256` pairings, the SP1 `bn` precompile is not just an optimization—it's what makes the technology feasible on consumer hardware. It reduces proof generation from a multi-hour commitment to under an hour, crossing a critical threshold for usability.
+
+2.  **A High-Quality Library is a "Game-Changer":** In the absence of a specialized, high-level precompile, the choice of cryptographic library is the single most important factor. The `arkworks` library provided a massive performance boost that **surpassed even the gains from a generic, low-level precompile.**
+
+For developers building in the SP1 zkVM, the recommendation is clear: prioritize the use of specialized precompiles like `sp1-patches/bn` whenever possible. If one is not available for your specific use case, selecting a modern, highly-optimized library like `arkworks` is the next most critical step to ensure manageable and efficient proof generation.
 
 
 _Report structured by an LLM (Gemini)... :)_
