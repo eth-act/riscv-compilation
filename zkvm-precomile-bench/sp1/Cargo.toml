@@ -10,4 +10,5 @@ exclude = [
     "bin/bn-pairing-patched",
     "bin/bigint-pairing",
     "bin/bigint-pairing-patched",
+    "bin/arks-pairing",
 ]

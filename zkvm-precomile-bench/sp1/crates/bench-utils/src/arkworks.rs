@@ -2,6 +2,7 @@ use ark_bn254::Fr;
 use ark_ec::{PrimeGroup, pairing::Pairing};
 use ark_ff::{Field, PrimeField};
 use std::str::FromStr;
+pub use ark_bn254::Bn254;
 
 pub fn init_rands_arks_batched() -> Vec<Fr> {
     [
