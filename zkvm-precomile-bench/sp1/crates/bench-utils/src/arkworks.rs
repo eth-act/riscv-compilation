@@ -70,7 +70,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_perform_20_bn254_pairings_bn() {
-        perform_20_bn254_pairings_bn::<Bn254>();
+    fn test_perform_20_bn254_pairings_arks() {
+        perform_20_bn254_pairings_arks::<Bn254>();
     }
 }
