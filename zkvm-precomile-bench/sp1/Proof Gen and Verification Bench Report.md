@@ -29,6 +29,7 @@ The five configurations from the updated execution benchmark were used:
 3.  **ark-pairing:** Uses the `ark_bn254` crate from the `arkworks` ecosystem, no precompiles.
 4.  **bn-pairing-patched:** `substrate_bn` with the specialized `bn` precompile enabled.
 5.  **bigint-pairing-patched:** `crypto-bigint` version with the generic `bigint` precompile enabled.
+6.  **ark-pairing-patched**: This is Identical to the `ark-pairing` guest program, but the bigint operation swapped with `sp1::mul_mod` precompiles where is can be applied, this should cut do the execution cycle count. 
 
 
 
@@ -41,6 +42,7 @@ The total time for proof generation and verification was recorded for each confi
 | `bigint-pairing` | `crypto-bigint` | No | 1,523,558,068 | ~4 hr 50 min | ~2 min 29 sec | ~4 hr 52 min |
 | `bn-pairing` | `substrate_bn` | No | 1,105,498,339 | ~4 hr 56 min | ~1 min 52 sec | ~4 hr 58 min |
 | `bigint-pairing-patched` | `crypto-bigint` | Yes (`bigint`) | 518,877,400 | ~3 hr 16 min | ~1 min 19 sec | ~3 hr 17 min |
+| `ark-pairing-patched` | `ark_bn254` | **Yes** | **422,122,898** | **~1 hr 23 min** | **~44 sec** | **~1 hr 24 min** |
 | `ark-pairing` | `ark_bn254` | **No** | **428,207,591** | **~1 hr 17 min** | **~44 sec** | **~1 hr 18 min** |
 | `bn-pairing-patched` | `substrate_bn` | Yes (`bn`) | **40,014,404** | **~40 min 47 sec** | **~21 sec** | **~41 min 8 sec** 🏆 |
 
@@ -80,6 +82,3 @@ This end-to-end analysis proves that both specialized precompiles and highly-opt
 2.  **A High-Quality Library is a "Game-Changer":** In the absence of a specialized, high-level precompile, the choice of cryptographic library is the single most important factor. The `arkworks` library provided a massive performance boost that **surpassed even the gains from a generic, low-level precompile.**
 
 For developers building in the SP1 zkVM, the recommendation is clear: prioritize the use of specialized precompiles like `sp1-patches/bn` whenever possible. If one is not available for your specific use case, selecting a modern, highly-optimized library like `arkworks` is the next most critical step to ensure manageable and efficient proof generation.
-
-
-_Report structured by an LLM (Gemini)... :)_
