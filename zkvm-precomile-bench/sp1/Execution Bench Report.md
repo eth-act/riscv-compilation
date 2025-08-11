@@ -70,6 +70,7 @@ Five distinct guest programs were benchmarked:
 3.  **ark-pairing**: Uses the `ark_bn254` crate from `arkworks` without precompile optimizations.
 4.  **bn-pairing-patched**: Identical to `bn-pairing` but enables SP1's "fat" `bn` precompile, which accelerates the full suite of `bn256` operations.
 5.  **bigint-pairing-patched**: Identical to `bigint-pairing` but enables a generic `bigint` precompile to accelerate low-level $U256$ arithmetic.
+6.  **ark-pairing-patched**: This is Identical to the `ark-pairing` guest program, but the bigint operation swapped with `sp1::mul_mod` precompiles where is can be applied, this should cut do the execution cycle count. 
 
 
 ### **Results**
@@ -82,6 +83,7 @@ The execution cycle counts and times for each configuration are summarized below
 | `bigint-pairing` | `crypto-bigint` | No | 1,523,558,068 | 26.0 s |
 | `ark-pairing` | `ark_bn254` | No | **428,207,591** | **7.96 s** |
 | `bigint-pairing-patched` | `crypto-bigint` | Yes (`bigint`) | 518,877,400 | 11.8 s |
+| `ark-pairing-patched` | `ark_bn254` | Yes (`ff-bigint`) | **422,122,898** | **2.16 s** |
 | `bn-pairing-patched` | `substrate_bn` | Yes (`bn`) | **40,014,404** | **2.16 s** |
 
 
@@ -122,7 +124,6 @@ This benchmark analysis leads to two primary conclusions for developers building
 2.  **Library Choice is Critical:** In the absence of a specialized precompile, the choice of the underlying cryptographic library is paramount. A highly optimized, general-purpose library like **`arkworks`** can provide significant performance benefits, even outperforming other libraries that have been augmented with generic, low-level arithmetic precompiles.
 
 Therefore, the recommended strategy for developers is to **prioritize specialized, high-level precompiles** whenever available. If such a precompile does not exist for a required cryptographic primitive, selecting a modern, highly-optimized library is the next best step for achieving performant and practical ZK programs.
-
 
 
 

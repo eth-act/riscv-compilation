@@ -1,0 +1,12 @@
+[package]
+version = "0.1.0"
+name = "fibonacci-program"
+edition = "2021"
+
+[dependencies]
+alloy-sol-types = { workspace = true }
+sp1-zkvm = "5.0.8"
+fibonacci-lib = { path = "../lib" }
+ark-ec = {git = "https://github.com/developeruche/algebra.git", rev = "5178847"}
+ark-ff = {git = "https://github.com/developeruche/algebra.git", rev = "5178847"}
+ark-bn254 = {git = "https://github.com/developeruche/algebra.git", rev = "5178847"}
