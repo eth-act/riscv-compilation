@@ -1,7 +1,7 @@
 use ark_bn254::Fr;
 use ark_ec::{PrimeGroup, pairing::Pairing};
-use ark_ff::{Field, PrimeField};
-use std::str::FromStr;
+use ark_ff::{Field, PrimeField, ARK_ADD_COUNT, ARK_INV_COUNT, ARK_MUL_COUNT, ARK_SUB_COUNT};
+use std::{str::FromStr, sync::atomic::Ordering};
 pub use ark_bn254::Bn254;
 
 pub fn init_rands_arks_batched() -> Vec<Fr> {
@@ -61,6 +61,15 @@ pub fn perform_20_bn254_pairings_arks<P: Pairing>() {
         let carol_ss = P::pairing(alice_pk1, bob_pk2).mul_bigint(carol_sk.into_bigint());
 
         assert!(alice_ss == bob_ss && bob_ss == carol_ss);
+        
+        
+        println!(
+            "mul: {}, inv: {}, add: {}, sub: {}",
+            ARK_MUL_COUNT.load(Ordering::Relaxed),
+            ARK_INV_COUNT.load(Ordering::Relaxed),
+            ARK_ADD_COUNT.load(Ordering::Relaxed),
+            ARK_SUB_COUNT.load(Ordering::Relaxed),
+        );
     }
 }
 
