@@ -95,3 +95,5 @@ SP1_PROVER=network NETWORK_PRIVATE_KEY=... cargo run --release --bin evm
 2025-08-06T22:00:46.280111Z  INFO execute: close time.busy=26.8s time.idle=1.71µs
 Program executed successfully.
 Number of cycles: 1105498339
+
+mul: 508339, inv: 18, add: 699498, sub: 447023

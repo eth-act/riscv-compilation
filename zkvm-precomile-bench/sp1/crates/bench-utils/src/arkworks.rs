@@ -61,16 +61,15 @@ pub fn perform_20_bn254_pairings_arks<P: Pairing>() {
         let carol_ss = P::pairing(alice_pk1, bob_pk2).mul_bigint(carol_sk.into_bigint());
 
         assert!(alice_ss == bob_ss && bob_ss == carol_ss);
-        
-        
-        println!(
-            "mul: {}, inv: {}, add: {}, sub: {}",
-            ARK_MUL_COUNT.load(Ordering::Relaxed),
-            ARK_INV_COUNT.load(Ordering::Relaxed),
-            ARK_ADD_COUNT.load(Ordering::Relaxed),
-            ARK_SUB_COUNT.load(Ordering::Relaxed),
-        );
     }
+    
+    println!(
+        "mul: {}, inv: {}, add: {}, sub: {}",
+        ARK_MUL_COUNT.load(Ordering::Relaxed),
+        ARK_INV_COUNT.load(Ordering::Relaxed),
+        ARK_ADD_COUNT.load(Ordering::Relaxed),
+        ARK_SUB_COUNT.load(Ordering::Relaxed),
+    );
 }
 
 #[cfg(test)]

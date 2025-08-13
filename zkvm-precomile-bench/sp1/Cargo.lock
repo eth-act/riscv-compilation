@@ -450,7 +450,7 @@ checksum = "6980e8d7511241f8acf4aebddbb1ff938df5eebe98691418c4468d0b72a96a67"
 [[package]]
 name = "substrate-bn"
 version = "0.6.0"
-source = "git+https://github.com/paritytech/bn?branch=master#63f8c587356a67b33c7396af98e065b66fca5dda"
+source = "git+https://github.com/developeruche/bn?branch=feat%2Fops-track-2#32ca930f5f7a359d0ad558990add4f95fa0a4463"
 dependencies = [
  "byteorder",
  "crunchy",

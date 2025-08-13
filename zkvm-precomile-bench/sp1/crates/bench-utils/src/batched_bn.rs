@@ -1,5 +1,7 @@
+use std::sync::atomic::Ordering;
+
 use crate::init_rands_bn_batched;
-use substrate_bn::{Fr, G1, G2, Group, pairing};
+use substrate_bn::{fields::{SUBBN_ADD_COUNT, SUBBN_INV_COUNT, SUBBN_MUL_COUNT, SUBBN_SUB_COUNT}, pairing, Fr, Group, G1, G2};
 
 pub fn perform_20_bn254_pairings_bn() {
     let rands = init_rands_bn_batched();
@@ -22,4 +24,12 @@ pub fn perform_20_bn254_pairings_bn() {
 
         assert!(alice_ss == bob_ss && bob_ss == carol_ss);
     }
+    
+    println!(
+        "mul: {}, inv: {}, add: {}, sub: {}",
+        SUBBN_MUL_COUNT.load(Ordering::Relaxed),
+        SUBBN_INV_COUNT.load(Ordering::Relaxed),
+        SUBBN_ADD_COUNT.load(Ordering::Relaxed),
+        SUBBN_SUB_COUNT.load(Ordering::Relaxed),
+    );
 }
