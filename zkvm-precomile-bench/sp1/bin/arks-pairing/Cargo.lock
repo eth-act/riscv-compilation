@@ -257,50 +257,28 @@ checksum = "dcfed56ad506cb2c684a14971b8861fdc3baaaae314b9e5f9bb532cbe3ba7a4f"
 
 [[package]]
 name = "ark-bn254"
-version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d69eab57e8d2663efa5c63135b2af4f396d66424f88954c21104125ab6b3e6bc"
+version = "0.5.0-alpha.0"
+source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
 dependencies = [
- "ark-ec 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ark-ff 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ark-ec",
+ "ark-ff 0.5.0",
  "ark-std 0.5.0",
 ]
 
 [[package]]
 name = "ark-ec"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43d68f2d516162846c1238e755a7c4d131b892b70cc70c471a8e3ca3ed818fce"
+source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
 dependencies = [
  "ahash",
- "ark-ff 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ark-poly 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ark-serialize 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ark-ff 0.5.0",
+ "ark-poly",
+ "ark-serialize 0.5.0",
  "ark-std 0.5.0",
  "educe",
  "fnv",
  "hashbrown 0.15.2",
  "itertools 0.13.0",
- "num-bigint 0.4.6",
- "num-integer",
- "num-traits",
- "zeroize",
-]
-
-[[package]]
-name = "ark-ec"
-version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
-dependencies = [
- "ahash",
- "ark-ff 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-poly 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-serialize 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-std 0.5.0",
- "educe",
- "fnv",
- "hashbrown 0.15.2",
- "itertools 0.14.0",
  "num-bigint 0.4.6",
  "num-integer",
  "num-traits",
@@ -348,12 +326,11 @@ dependencies = [
 [[package]]
 name = "ark-ff"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a177aba0ed1e0fbb62aa9f6d0502e9b46dad8c2eab04c14258a1212d2557ea70"
+source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
 dependencies = [
- "ark-ff-asm 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ark-ff-macros 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ark-serialize 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ark-ff-asm 0.5.0",
+ "ark-ff-macros 0.5.0",
+ "ark-serialize 0.5.0",
  "ark-std 0.5.0",
  "arrayvec",
  "digest 0.10.7",
@@ -362,24 +339,6 @@ dependencies = [
  "num-bigint 0.4.6",
  "num-traits",
  "paste",
- "zeroize",
-]
-
-[[package]]
-name = "ark-ff"
-version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
-dependencies = [
- "ark-ff-asm 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-ff-macros 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-serialize 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-std 0.5.0",
- "arrayvec",
- "digest 0.10.7",
- "educe",
- "itertools 0.14.0",
- "num-bigint 0.4.6",
- "num-traits",
  "zeroize",
 ]
 
@@ -406,17 +365,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-asm"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "62945a2f7e6de02a31fe400aa489f0e0f5b2502e69f95f853adb82a96c7a6b60"
-dependencies = [
- "quote",
- "syn 2.0.100",
-]
-
-[[package]]
-name = "ark-ff-asm"
-version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
 dependencies = [
  "quote",
  "syn 2.0.100",
@@ -450,20 +399,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-macros"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09be120733ee33f7693ceaa202ca41accd5653b779563608f1234f78ae07c4b3"
-dependencies = [
- "num-bigint 0.4.6",
- "num-traits",
- "proc-macro2",
- "quote",
- "syn 2.0.100",
-]
-
-[[package]]
-name = "ark-ff-macros"
-version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
 dependencies = [
  "num-bigint 0.4.6",
  "num-traits",
@@ -475,26 +411,11 @@ dependencies = [
 [[package]]
 name = "ark-poly"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "579305839da207f02b89cd1679e50e67b4331e2f9294a57693e5051b7703fe27"
+source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
 dependencies = [
  "ahash",
- "ark-ff 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ark-serialize 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ark-std 0.5.0",
- "educe",
- "fnv",
- "hashbrown 0.15.2",
-]
-
-[[package]]
-name = "ark-poly"
-version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
-dependencies = [
- "ahash",
- "ark-ff 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-serialize 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
+ "ark-ff 0.5.0",
+ "ark-serialize 0.5.0",
  "ark-std 0.5.0",
  "educe",
  "fnv",
@@ -525,10 +446,9 @@ dependencies = [
 [[package]]
 name = "ark-serialize"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3f4d068aaf107ebcd7dfb52bc748f8030e0fc930ac8e360146ca54c1203088f7"
+source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
 dependencies = [
- "ark-serialize-derive 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ark-serialize-derive",
  "ark-std 0.5.0",
  "arrayvec",
  "digest 0.10.7",
@@ -536,31 +456,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "ark-serialize"
-version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
-dependencies = [
- "ark-serialize-derive 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-std 0.5.0",
- "digest 0.10.7",
- "num-bigint 0.4.6",
-]
-
-[[package]]
 name = "ark-serialize-derive"
 version = "0.5.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "213888f660fddcca0d257e88e54ac05bca01885f258ccdf695bafd77031bb69d"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.100",
-]
-
-[[package]]
-name = "ark-serialize-derive"
-version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -773,9 +671,8 @@ name = "bench-utils"
 version = "0.1.0"
 dependencies = [
  "ark-bn254",
- "ark-ec 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ark-ec 0.5.0 (git+https://github.com/developeruche/algebra.git?rev=5178847)",
- "ark-ff 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ark-ec",
+ "ark-ff 0.5.0",
  "bn-with-bigint-operational",
  "rand 0.8.5",
  "substrate-bn",
@@ -2451,15 +2348,6 @@ name = "itertools"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
-dependencies = [
- "either",
-]
-
-[[package]]
-name = "itertools"
-version = "0.14.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
 dependencies = [
  "either",
 ]
