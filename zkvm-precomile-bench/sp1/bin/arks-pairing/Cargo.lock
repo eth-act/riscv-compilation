@@ -4753,7 +4753,7 @@ dependencies = [
 [[package]]
 name = "substrate-bn"
 version = "0.6.0"
-source = "git+https://github.com/developeruche/bn?branch=feat%2Fops-track-4#02c26105eaf4e56edb6038d5cc7ffed6d8d09c17"
+source = "git+https://github.com/paritytech/bn?branch=master#63f8c587356a67b33c7396af98e065b66fca5dda"
 dependencies = [
  "byteorder",
  "crunchy",
