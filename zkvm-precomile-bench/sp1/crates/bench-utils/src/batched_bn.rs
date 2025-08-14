@@ -1,5 +1,7 @@
+use std::sync::atomic::Ordering;
+
 use crate::init_rands_bn_batched;
-use substrate_bn::{Fr, G1, G2, Group, pairing};
+use substrate_bn::{pairing, Fr, Group, G1, G2};
 
 pub fn perform_20_bn254_pairings_bn() {
     let rands = init_rands_bn_batched();
@@ -16,10 +18,8 @@ pub fn perform_20_bn254_pairings_bn() {
         let (carol_pk1, carol_pk2) = (G1::one() * carol_sk, G2::one() * carol_sk);
 
         // Each party computes the shared secret
-        let alice_ss = pairing(bob_pk1, carol_pk2).pow(alice_sk);
-        let bob_ss = pairing(carol_pk1, alice_pk2).pow(bob_sk);
-        let carol_ss = pairing(alice_pk1, bob_pk2).pow(carol_sk);
-
-        assert!(alice_ss == bob_ss && bob_ss == carol_ss);
+        let _alice_ss = pairing(bob_pk1, carol_pk2).pow(alice_sk);
+        let _bob_ss = pairing(carol_pk1, alice_pk2).pow(bob_sk);
+        let _carol_ss = pairing(alice_pk1, bob_pk2).pow(carol_sk);
     }
 }

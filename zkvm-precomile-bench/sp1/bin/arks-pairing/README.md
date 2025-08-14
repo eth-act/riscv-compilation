@@ -95,3 +95,15 @@ SP1_PROVER=network NETWORK_PRIVATE_KEY=... cargo run --release --bin evm
 2025-08-08T03:00:08.849106Z  INFO execute: close time.busy=7.96s time.idle=1.88µs
 Program executed successfully.
 Number of cycles: 428207591
+
+stdout: mul: 34758, inv: 24, add: 334651, sub: 160552
+
+
+Total compute cycles [inv]: 5945168
+Compute invocation count [inv]: 24
+Total compute cycles [add]: 156617205
+Compute invocation count [add]: 334651
+Total compute cycles [sub]: 80378302
+Compute invocation count [sub]: 160552
+Total compute cycles [mul]: 59126790
+Compute invocation count [mul]: 34758

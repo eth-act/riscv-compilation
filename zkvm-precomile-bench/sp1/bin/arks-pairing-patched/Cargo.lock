@@ -258,7 +258,7 @@ checksum = "dcfed56ad506cb2c684a14971b8861fdc3baaaae314b9e5f9bb532cbe3ba7a4f"
 [[package]]
 name = "ark-bn254"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
 dependencies = [
  "ark-ec",
  "ark-ff 0.5.0",
@@ -268,7 +268,7 @@ dependencies = [
 [[package]]
 name = "ark-ec"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
 dependencies = [
  "ahash",
  "ark-ff 0.5.0",
@@ -326,7 +326,7 @@ dependencies = [
 [[package]]
 name = "ark-ff"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
 dependencies = [
  "ark-ff-asm 0.5.0",
  "ark-ff-macros 0.5.0",
@@ -364,7 +364,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-asm"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
 dependencies = [
  "quote",
  "syn 2.0.100",
@@ -398,7 +398,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-macros"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
 dependencies = [
  "num-bigint 0.4.6",
  "num-traits",
@@ -410,7 +410,7 @@ dependencies = [
 [[package]]
 name = "ark-poly"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
 dependencies = [
  "ahash",
  "ark-ff 0.5.0",
@@ -445,7 +445,7 @@ dependencies = [
 [[package]]
 name = "ark-serialize"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
 dependencies = [
  "ark-serialize-derive",
  "ark-std 0.5.0",
@@ -456,7 +456,7 @@ dependencies = [
 [[package]]
 name = "ark-serialize-derive"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?rev=5178847#5178847a8cf207de6b6c184bbe5ee045004066ff"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
 dependencies = [
  "proc-macro2",
  "quote",

@@ -83,7 +83,7 @@ The execution cycle counts and times for each configuration are summarized below
 | `bigint-pairing` | `crypto-bigint` | No | 1,523,558,068 | 26.0 s |
 | `ark-pairing` | `ark_bn254` | No | **428,207,591** | **7.96 s** |
 | `bigint-pairing-patched` | `crypto-bigint` | Yes (`bigint`) | 518,877,400 | 11.8 s |
-| `ark-pairing-patched` | `ark_bn254` | Yes (`ff-bigint`) | **422,122,898** | **2.16 s** |
+| `ark-pairing-patched` | `ark_bn254` | Yes (`ff-bigint`) | **466,770,300** | **9.03 s** |
 | `bn-pairing-patched` | `substrate_bn` | Yes (`bn`) | **40,014,404** | **2.16 s** |
 
 

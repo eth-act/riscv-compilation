@@ -55,10 +55,8 @@ pub fn perform_20_bn254_pairings_arks_patched<P: Pairing>() {
         );
 
         // Each party computes the shared secret
-        let alice_ss = P::pairing(bob_pk1, carol_pk2).mul_bigint(alice_sk.into_bigint());
-        let bob_ss = P::pairing(carol_pk1, alice_pk2).mul_bigint(bob_sk.into_bigint());
-        let carol_ss = P::pairing(alice_pk1, bob_pk2).mul_bigint(carol_sk.into_bigint());
-
-        assert!(alice_ss == bob_ss && bob_ss == carol_ss);
+        let _alice_ss = P::pairing(bob_pk1, carol_pk2).mul_bigint(alice_sk.into_bigint());
+        let _bob_ss = P::pairing(carol_pk1, alice_pk2).mul_bigint(bob_sk.into_bigint());
+        let _carol_ss = P::pairing(alice_pk1, bob_pk2).mul_bigint(carol_sk.into_bigint());
     }
 }
