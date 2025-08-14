@@ -4,14 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-substrate-bn = {git = "https://github.com/developeruche/bn", branch = "feat/ops-track-2"}
+substrate-bn = {git = "https://github.com/paritytech/bn", branch = "master"}
 rand = { version = "0.8.3", features = ["std_rng"] }
-bn-with-bigint-operational = {path = "../bn-with-bigint-operational"}
-ark-ec = {git = "https://github.com/developeruche/algebra", branch = "feat/ops-track"}
-ark-ff = {git = "https://github.com/developeruche/algebra", branch = "feat/ops-track"}
-ark-bn254 = {git = "https://github.com/developeruche/algebra", branch = "feat/ops-track"}
+bn-with-bigint-operational = {path = "../bn-with-bigint-operational", features = ["std"]}
 
-
-# ark-ec = {git = "https://github.com/developeruche/algebra", tag = "v0.5.0"}
-# ark-ff = {git = "https://github.com/developeruche/algebra", tag = "v0.5.0"}
-# ark-bn254 = {git = "https://github.com/developeruche/algebra", tag = "v0.5.0"}
+ark-ec = {git = "https://github.com/developeruche/algebra", tag = "v0.5.0"}
+ark-ff = {git = "https://github.com/developeruche/algebra", tag = "v0.5.0"}
+ark-bn254 = {git = "https://github.com/developeruche/algebra", tag = "v0.5.0"}

@@ -97,3 +97,12 @@ Program executed successfully.
 Number of cycles: 1105498339
 
 mul: 508339, inv: 18, add: 699498, sub: 447023
+
+Total compute cycles [inv]: 1903489
+Compute invocation count [inv]: 18
+Total compute cycles [add]: 368082835
+Compute invocation count [add]: 699498
+Total compute cycles [sub]: 244792330
+Compute invocation count [sub]: 447023
+Total compute cycles [mul]: 1010021453
+Compute invocation count [mul]: 508339

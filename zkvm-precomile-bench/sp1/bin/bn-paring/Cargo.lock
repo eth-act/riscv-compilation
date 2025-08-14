@@ -258,7 +258,7 @@ checksum = "dcfed56ad506cb2c684a14971b8861fdc3baaaae314b9e5f9bb532cbe3ba7a4f"
 [[package]]
 name = "ark-bn254"
 version = "0.5.0-alpha.0"
-source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
+source = "git+https://github.com/developeruche/algebra?tag=v0.5.0#7ad88c46e859a94ab8e0b19fd8a217c3dc472f1c"
 dependencies = [
  "ark-ec",
  "ark-ff 0.5.0",
@@ -268,7 +268,7 @@ dependencies = [
 [[package]]
 name = "ark-ec"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
+source = "git+https://github.com/developeruche/algebra?tag=v0.5.0#7ad88c46e859a94ab8e0b19fd8a217c3dc472f1c"
 dependencies = [
  "ahash",
  "ark-ff 0.5.0",
@@ -326,7 +326,7 @@ dependencies = [
 [[package]]
 name = "ark-ff"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
+source = "git+https://github.com/developeruche/algebra?tag=v0.5.0#7ad88c46e859a94ab8e0b19fd8a217c3dc472f1c"
 dependencies = [
  "ark-ff-asm 0.5.0",
  "ark-ff-macros 0.5.0",
@@ -365,7 +365,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-asm"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
+source = "git+https://github.com/developeruche/algebra?tag=v0.5.0#7ad88c46e859a94ab8e0b19fd8a217c3dc472f1c"
 dependencies = [
  "quote",
  "syn 2.0.100",
@@ -399,7 +399,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-macros"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
+source = "git+https://github.com/developeruche/algebra?tag=v0.5.0#7ad88c46e859a94ab8e0b19fd8a217c3dc472f1c"
 dependencies = [
  "num-bigint 0.4.6",
  "num-traits",
@@ -411,7 +411,7 @@ dependencies = [
 [[package]]
 name = "ark-poly"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
+source = "git+https://github.com/developeruche/algebra?tag=v0.5.0#7ad88c46e859a94ab8e0b19fd8a217c3dc472f1c"
 dependencies = [
  "ahash",
  "ark-ff 0.5.0",
@@ -446,7 +446,7 @@ dependencies = [
 [[package]]
 name = "ark-serialize"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
+source = "git+https://github.com/developeruche/algebra?tag=v0.5.0#7ad88c46e859a94ab8e0b19fd8a217c3dc472f1c"
 dependencies = [
  "ark-serialize-derive",
  "ark-std 0.5.0",
@@ -458,7 +458,7 @@ dependencies = [
 [[package]]
 name = "ark-serialize-derive"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra?branch=feat%2Fops-track#6de02e8d29722977c8f5c4648756cb27288c9fd8"
+source = "git+https://github.com/developeruche/algebra?tag=v0.5.0#7ad88c46e859a94ab8e0b19fd8a217c3dc472f1c"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4762,7 +4762,7 @@ dependencies = [
 [[package]]
 name = "substrate-bn"
 version = "0.6.0"
-source = "git+https://github.com/developeruche/bn?branch=feat%2Fops-track-2#32ca930f5f7a359d0ad558990add4f95fa0a4463"
+source = "git+https://github.com/paritytech/bn?branch=master#63f8c587356a67b33c7396af98e065b66fca5dda"
 dependencies = [
  "byteorder",
  "crunchy",

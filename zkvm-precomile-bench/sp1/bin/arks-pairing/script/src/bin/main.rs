@@ -73,6 +73,31 @@ fn main() {
 
         // Record the number of cycles executed.
         println!("Number of cycles: {}", report.total_instruction_count());
+        
+        
+        let total_compute_cycles_inv = report.cycle_tracker.get("compute-inverse").unwrap();
+        let compute_invocation_count_inv = report.invocation_tracker.get("compute-inverse").unwrap();
+        
+        let total_compute_cycles_add = report.cycle_tracker.get("compute-add").unwrap();
+        let compute_invocation_count_add = report.invocation_tracker.get("compute-add").unwrap();
+        
+        let total_compute_cycles_sub = report.cycle_tracker.get("compute-sub").unwrap();
+        let compute_invocation_count_sub = report.invocation_tracker.get("compute-sub").unwrap();
+        
+        let total_compute_cycles_mul = report.cycle_tracker.get("compute-mul").unwrap();
+        let compute_invocation_count_mul = report.invocation_tracker.get("compute-mul").unwrap();
+        
+        println!("Total compute cycles [inv]: {}", total_compute_cycles_inv);
+        println!("Compute invocation count [inv]: {}", compute_invocation_count_inv);
+        
+        println!("Total compute cycles [add]: {}", total_compute_cycles_add);
+        println!("Compute invocation count [add]: {}", compute_invocation_count_add);
+        
+        println!("Total compute cycles [sub]: {}", total_compute_cycles_sub);
+        println!("Compute invocation count [sub]: {}", compute_invocation_count_sub);
+        
+        println!("Total compute cycles [mul]: {}", total_compute_cycles_mul);
+        println!("Compute invocation count [mul]: {}", compute_invocation_count_mul);
     } else {
         // Setup the program for proving.
         let (pk, vk) = client.setup(FIBONACCI_ELF);

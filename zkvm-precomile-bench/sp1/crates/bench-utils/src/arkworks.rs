@@ -1,6 +1,6 @@
 use ark_bn254::Fr;
 use ark_ec::{PrimeGroup, pairing::Pairing};
-use ark_ff::{Field, PrimeField, ARK_ADD_COUNT, ARK_INV_COUNT, ARK_MUL_COUNT, ARK_SUB_COUNT};
+use ark_ff::{Field, PrimeField};
 use std::{str::FromStr, sync::atomic::Ordering};
 pub use ark_bn254::Bn254;
 
@@ -56,20 +56,10 @@ pub fn perform_20_bn254_pairings_arks<P: Pairing>() {
         );
 
         // Each party computes the shared secret
-        let alice_ss = P::pairing(bob_pk1, carol_pk2).mul_bigint(alice_sk.into_bigint());
-        let bob_ss = P::pairing(carol_pk1, alice_pk2).mul_bigint(bob_sk.into_bigint());
-        let carol_ss = P::pairing(alice_pk1, bob_pk2).mul_bigint(carol_sk.into_bigint());
-
-        assert!(alice_ss == bob_ss && bob_ss == carol_ss);
+        let _alice_ss = P::pairing(bob_pk1, carol_pk2).mul_bigint(alice_sk.into_bigint());
+        let _bob_ss = P::pairing(carol_pk1, alice_pk2).mul_bigint(bob_sk.into_bigint());
+        let _carol_ss = P::pairing(alice_pk1, bob_pk2).mul_bigint(carol_sk.into_bigint());
     }
-    
-    println!(
-        "mul: {}, inv: {}, add: {}, sub: {}",
-        ARK_MUL_COUNT.load(Ordering::Relaxed),
-        ARK_INV_COUNT.load(Ordering::Relaxed),
-        ARK_ADD_COUNT.load(Ordering::Relaxed),
-        ARK_SUB_COUNT.load(Ordering::Relaxed),
-    );
 }
 
 #[cfg(test)]

@@ -89,9 +89,9 @@ SP1_PROVER=network NETWORK_PRIVATE_KEY=... cargo run --release --bin evm
 ```
 
 
-2025-08-11T12:16:52.847763Z  INFO execute: └╴422,117,673 cycles
-2025-08-11T12:16:52.847907Z  WARN execute: Not all input bytes were read.
-2025-08-11T12:16:52.855973Z  INFO execute: gas: 432165299
-2025-08-11T12:16:52.856731Z  INFO execute: close time.busy=7.99s time.idle=2.00µs
+2025-08-14T10:09:11.234289Z  INFO execute: └╴466,770,300 cycles
+2025-08-14T10:09:11.234435Z  WARN execute: Not all input bytes were read.
+2025-08-14T10:09:11.243217Z  INFO execute: gas: 482008442
+2025-08-14T10:09:11.243769Z  INFO execute: close time.busy=9.03s time.idle=1.67µs
 Program executed successfully.
-Number of cycles: 422122898
+Number of cycles: 466775525

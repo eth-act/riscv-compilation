@@ -7,6 +7,18 @@ edition = "2021"
 alloy-sol-types = { workspace = true }
 sp1-zkvm = "5.0.8"
 fibonacci-lib = { path = "../lib" }
-ark-ec = {git = "https://github.com/developeruche/algebra.git", rev = "5178847"}
-ark-ff = {git = "https://github.com/developeruche/algebra.git", rev = "5178847"}
-ark-bn254 = {git = "https://github.com/developeruche/algebra.git", rev = "5178847"}
+ark-ec = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-precompile-4"}
+ark-ff = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-precompile-4"}
+ark-bn254 = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-precompile-4"}
+
+
+# ark-ec = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-patch-main-6"}
+# # ark-ff = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-patch-main-0", features = ["std"]}
+# ark-ff = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-patch-main-6", features = ["std"]}
+# ark-bn254 = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-patch-main-6"}
+
+
+# ark-ec = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-patch-6"}
+# # ark-ff = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-patch-6", features = ["std"]}
+# ark-ff = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-patch-6"}
+# ark-bn254 = {git = "https://github.com/developeruche/algebra.git", branch = "sp1-patch-6"}
