@@ -1,7 +1,5 @@
-use std::sync::atomic::Ordering;
-
 use crate::init_rands_bn_batched;
-use substrate_bn::{pairing, Fr, Group, G1, G2};
+use substrate_bn::{Fr, G1, G2, Group, pairing};
 
 pub fn perform_20_bn254_pairings_bn() {
     let rands = init_rands_bn_batched();
