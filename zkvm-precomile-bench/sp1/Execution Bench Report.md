@@ -63,14 +63,14 @@ pub fn general_guest_program() {
 
 #### **Experimental Configurations**
 
-Five distinct guest programs were benchmarked:
+Six distinct guest programs were benchmarked:
 
 1.  **bn-pairing**: Uses the standard `substrate_bn` crate without precompile optimizations.
 2.  **bigint-pairing**: Uses a modified `substrate_bn` crate that relies on `crypto-bigint` for $U256$ operations, also without precompiles.
 3.  **ark-pairing**: Uses the `ark_bn254` crate from `arkworks` without precompile optimizations.
 4.  **bn-pairing-patched**: Identical to `bn-pairing` but enables SP1's "fat" `bn` precompile, which accelerates the full suite of `bn256` operations.
 5.  **bigint-pairing-patched**: Identical to `bigint-pairing` but enables a generic `bigint` precompile to accelerate low-level $U256$ arithmetic.
-6.  **ark-pairing-patched**: This is Identical to the `ark-pairing` guest program, but the bigint operation swapped with `sp1::mul_mod` precompiles where is can be applied, this should cut do the execution cycle count. 
+6.  **ark-pairing-patched**: This is Identical to the `ark-pairing` guest program, but the bigint operation swapped with `sp1::mul_mod` precompiles where it can be applied, this should cut down the execution cycle count. 
 
 
 ### **Results**
