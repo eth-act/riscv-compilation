@@ -1,5 +1,3 @@
-use std::sync::atomic::Ordering;
-
 use crate::init_rands_bn_batched;
 use substrate_bn::{pairing, Fr, Group, G1, G2};
 

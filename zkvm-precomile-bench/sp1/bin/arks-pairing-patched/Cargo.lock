@@ -258,7 +258,7 @@ checksum = "dcfed56ad506cb2c684a14971b8861fdc3baaaae314b9e5f9bb532cbe3ba7a4f"
 [[package]]
 name = "ark-bn254"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-24#da7691e15ad7db4deeb1affdf9a1454a714fd292"
 dependencies = [
  "ark-ec",
  "ark-ff 0.5.0",
@@ -268,7 +268,7 @@ dependencies = [
 [[package]]
 name = "ark-ec"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-24#da7691e15ad7db4deeb1affdf9a1454a714fd292"
 dependencies = [
  "ahash",
  "ark-ff 0.5.0",
@@ -326,7 +326,7 @@ dependencies = [
 [[package]]
 name = "ark-ff"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-24#da7691e15ad7db4deeb1affdf9a1454a714fd292"
 dependencies = [
  "ark-ff-asm 0.5.0",
  "ark-ff-macros 0.5.0",
@@ -364,7 +364,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-asm"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-24#da7691e15ad7db4deeb1affdf9a1454a714fd292"
 dependencies = [
  "quote",
  "syn 2.0.100",
@@ -398,7 +398,7 @@ dependencies = [
 [[package]]
 name = "ark-ff-macros"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-24#da7691e15ad7db4deeb1affdf9a1454a714fd292"
 dependencies = [
  "num-bigint 0.4.6",
  "num-traits",
@@ -410,7 +410,7 @@ dependencies = [
 [[package]]
 name = "ark-poly"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-24#da7691e15ad7db4deeb1affdf9a1454a714fd292"
 dependencies = [
  "ahash",
  "ark-ff 0.5.0",
@@ -445,18 +445,19 @@ dependencies = [
 [[package]]
 name = "ark-serialize"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-24#da7691e15ad7db4deeb1affdf9a1454a714fd292"
 dependencies = [
  "ark-serialize-derive",
  "ark-std 0.5.0",
  "digest 0.10.7",
  "num-bigint 0.4.6",
+ "serde_with",
 ]
 
 [[package]]
 name = "ark-serialize-derive"
 version = "0.5.0"
-source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-4#fcddd303eb8716d3017586f85ccbdb1a3a8a6523"
+source = "git+https://github.com/developeruche/algebra.git?branch=sp1-precompile-24#da7691e15ad7db4deeb1affdf9a1454a714fd292"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -904,6 +905,7 @@ dependencies = [
  "android-tzdata",
  "iana-time-zone",
  "num-traits",
+ "serde",
  "windows-link",
 ]
 
@@ -1215,6 +1217,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "28cfac68e08048ae1883171632c2aef3ebc555621ae56fbccce1cbf22dd7f058"
 dependencies = [
  "powerfmt",
+ "serde",
 ]
 
 [[package]]
@@ -1353,6 +1356,12 @@ name = "dunce"
 version = "1.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "92773504d58c093f6de2459af4af33faa518c13451eb8f2b5698ed3d36e7c813"
+
+[[package]]
+name = "dyn-clone"
+version = "1.0.20"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d0881ea181b1df73ff77ffaaf9c7544ecc11e82fba9b5f27b262a3c73a332555"
 
 [[package]]
 name = "ecdsa"
@@ -2245,6 +2254,7 @@ checksum = "bd070e393353796e801d209ad339e89596eb4c8d430d18ede6a1cced8fafbd99"
 dependencies = [
  "autocfg",
  "hashbrown 0.12.3",
+ "serde",
 ]
 
 [[package]]
@@ -3551,6 +3561,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "ref-cast"
+version = "1.0.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4a0ae411dbe946a674d89546582cea4ba2bb8defac896622d6496f14c23ba5cf"
+dependencies = [
+ "ref-cast-impl",
+]
+
+[[package]]
+name = "ref-cast-impl"
+version = "1.0.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1165225c21bff1f3bbce98f5a1f889949bc902d3575308cc7b0de30b4f6d27c7"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.100",
+]
+
+[[package]]
 name = "regex"
 version = "1.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3910,6 +3940,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "schemars"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4cd191f9397d57d581cddd31014772520aa448f65ef991055d7f61582c65165f"
+dependencies = [
+ "dyn-clone",
+ "ref-cast",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "schemars"
+version = "1.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "82d20c4491bc164fa2f6c5d44565947a52ad80b9505d8e36f8d54c27c739fcd0"
+dependencies = [
+ "dyn-clone",
+ "ref-cast",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "scopeguard"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4047,6 +4101,25 @@ dependencies = [
  "itoa",
  "ryu",
  "serde",
+]
+
+[[package]]
+name = "serde_with"
+version = "3.14.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f2c45cd61fefa9db6f254525d46e392b852e0e61d9a1fd36e5bd183450a556d5"
+dependencies = [
+ "base64",
+ "chrono",
+ "hex",
+ "indexmap 1.9.3",
+ "indexmap 2.8.0",
+ "schemars 0.9.0",
+ "schemars 1.0.4",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "time",
 ]
 
 [[package]]
