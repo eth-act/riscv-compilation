@@ -4,5 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-zkvm-interface = { git = "https://github.com/eth-act/ere.git", tag = "v0.0.12" }
-ere-sp1        = { git = "https://github.com/eth-act/ere.git", tag = "v0.0.12" }
+zkvm-interface = { git = "https://github.com/developeruche/ere.git", branch = "exp/gen-guest" }
+ere-sp1        = { git = "https://github.com/developeruche/ere.git", branch = "exp/gen-guest" }
+ere-risc0      = { git = "https://github.com/developeruche/ere.git", branch = "exp/gen-guest" }
+
+risc0-binfmt = { version = "3.0.2", default-features = false }

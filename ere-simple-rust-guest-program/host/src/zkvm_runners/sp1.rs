@@ -1,24 +1,12 @@
+use ere_sp1::{EreSP1, compiler::RustRv32ima};
 use std::path::Path;
-use ere_sp1::EreSP1;
-use zkvm_interface::{Input, ProverResourceType, zkVM};
+use zkvm_interface::{Compiler, ProverResourceType};
 
-use crate::utils::load_compiled_guest_program;
+use crate::zkvm_runners::run_guest_program;
 
-pub(crate) fn run_sp1(guest_program_path: &Path) -> Result<(), Box<dyn std::error::Error>> {
-    // Guest program loading
-    let program = load_compiled_guest_program(guest_program_path)?;
-
-    // Create Ere(SP1) zkVM instance
+pub(crate) fn run_sp1() -> Result<(), Box<dyn std::error::Error>> {
+    let guest_directory = Path::new("../guest_programs/sp1");
+    let program = RustRv32ima.compile(guest_directory)?;
     let zkvm = EreSP1::new(program, ProverResourceType::Cpu);
-
-    // Prepare inputs
-    let io = Input::new();
-
-    // Execute
-    let _report = zkvm.execute(&io)?;
-
-    // Prove
-    let (_public_values, _proof, _report) = zkvm.prove(&io)?;
-
-    Ok(())
+    run_guest_program(zkvm)
 }
