@@ -62,6 +62,7 @@ unsafe impl GlobalAlloc for SimpleAlloc {
 #[global_allocator]
 static HEAP: SimpleAlloc = SimpleAlloc;
 
+// https://docs.succinct.xyz/docs/sp1/security/rv32im-implementation#reserved-memory-regions
 pub const MAX_MEMORY: usize = 0x78000000;
 static mut HEAP_POS: usize = 0;
 #[allow(clippy::missing_safety_doc)]
@@ -95,3 +96,29 @@ pub unsafe extern "C" fn sys_alloc_aligned(bytes: usize, align: usize) -> *mut u
     unsafe { HEAP_POS = heap_pos };
     ptr
 }
+
+// Assume single-threaded.
+#[cfg(all(target_arch = "riscv32", target_feature = "a"))]
+#[unsafe(no_mangle)]
+fn _critical_section_1_0_acquire() -> u32
+{
+    return 0;
+}
+
+#[cfg(all(target_arch = "riscv32", target_feature = "a"))]
+#[unsafe(no_mangle)]
+fn _critical_section_1_0_release(_: u32)
+{}
+
+// Assume single-threaded.
+#[cfg(all(target_arch = "riscv64", target_feature = "a"))]
+#[unsafe(no_mangle)]
+fn _critical_section_1_0_acquire() -> u64
+{
+    return 0;
+}
+
+#[cfg(all(target_arch = "riscv64", target_feature = "a"))]
+#[unsafe(no_mangle)]
+fn _critical_section_1_0_release(_: u64)
+{}

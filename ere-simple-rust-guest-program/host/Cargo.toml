@@ -7,5 +7,7 @@ edition = "2024"
 zkvm-interface = { git = "https://github.com/developeruche/ere.git", branch = "exp/gen-guest" }
 ere-sp1        = { git = "https://github.com/developeruche/ere.git", branch = "exp/gen-guest" }
 ere-risc0      = { git = "https://github.com/developeruche/ere.git", branch = "exp/gen-guest" }
+ere-openvm      = { git = "https://github.com/developeruche/ere.git", branch = "exp/gen-guest" }
+ere-pico      = { git = "https://github.com/developeruche/ere.git", branch = "exp/gen-guest" }
 
 risc0-binfmt = { version = "3.0.2", default-features = false }

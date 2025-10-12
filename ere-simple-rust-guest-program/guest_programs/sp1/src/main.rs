@@ -6,11 +6,8 @@ use alloc::vec::Vec;
 use core::sync::atomic::Ordering;
 use core::sync::atomic::AtomicU16;
 
-#[cfg(feature = "sp1-guest")]
 mod sp1;
 
-#[cfg(feature = "risc0-guest")]
-mod risc0;
 
 fn main() {
     let a: AtomicU16 = core::hint::black_box(AtomicU16::new(5));
