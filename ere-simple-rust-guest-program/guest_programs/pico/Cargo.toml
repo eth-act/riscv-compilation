@@ -1,0 +1,11 @@
+[package]
+name = "general-rust-guest-program"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+
+[features]
+sp1-guest = []
+risc0-guest = []
